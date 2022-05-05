@@ -21,9 +21,9 @@ public class MainFrame extends JFrame {
     protected JPanel panelBase;
     protected JPanel panelMenu;
     protected JPanel panelContenido;
-    protected JPanel panelFormulario;
-    protected JPanel panelPrecios;
-    protected JPanel panelResumen;
+    protected JPanel panelFormularioAlta;
+    protected JPanel panelCobroTrabajos;
+    protected JPanel panelTrabajosCobrados;
 
     // Labels ----------------------------------------------------------------------------------------------------------
 
@@ -34,9 +34,9 @@ public class MainFrame extends JFrame {
     // TextArea --------------------------------------------------------------------------------------------------------
 
     // Botones ---------------------------------------------------------------------------------------------------------
-    protected JButton botonFormulario;
-    protected JButton botonCalculos;
-    protected JButton botonResumen;
+    protected JButton botonMenuFormulario;
+    protected JButton botonMenuCobro;
+    protected JButton botonMenuYaCobrados;
 
 
     // Constructor #####################################################################################################
@@ -58,68 +58,68 @@ public class MainFrame extends JFrame {
         panelMenu = new JPanel(new FlowLayout(FlowLayout.CENTER, GAP, GAP));
         panelContenido = new JPanel(new FlowLayout(FlowLayout.CENTER, GAP, GAP));
 
-        panelFormulario = new JPanel();
-        panelPrecios = new JPanel();
-        panelResumen = new JPanel();
+        panelFormularioAlta = new JPanel();
+        panelCobroTrabajos = new JPanel();
+        panelTrabajosCobrados = new JPanel();
 
         // Creamos los componentes
-        botonFormulario = new JButton("Formulario");
-        botonCalculos = new JButton("Precios");
-        botonResumen = new JButton("Resumen");
+        botonMenuFormulario = new JButton("Alta Trabajo");
+        botonMenuCobro = new JButton("Cobro Trabajo de Taller");
+        botonMenuYaCobrados = new JButton("Trabajos ya cobrados");
 
         // Ahora añadimos los paneles en la frame (ventana).
         this.add(panelBase);
         panelBase.add(panelMenu, BorderLayout.NORTH);
         panelBase.add(panelContenido, BorderLayout.CENTER);
 
-        panelContenido.add(panelFormulario);
-        panelContenido.add(panelPrecios);
-        panelContenido.add(panelResumen);
+        panelContenido.add(panelFormularioAlta);
+        panelContenido.add(panelCobroTrabajos);
+        panelContenido.add(panelTrabajosCobrados);
 
         // Añadimos los componentes a los paneles
-        panelMenu.add(botonFormulario);
-        panelMenu.add(botonCalculos);
-        panelMenu.add(botonResumen);
+        panelMenu.add(botonMenuFormulario);
+        panelMenu.add(botonMenuCobro);
+        panelMenu.add(botonMenuYaCobrados);
 
 
         // Coloreamos los paneles para diferenciarlos
         panelBase.setBackground(new java.awt.Color(0, 0, 0));
         panelMenu.setBackground(new java.awt.Color(36, 243, 21));
         panelContenido.setBackground(new java.awt.Color(3, 252, 252));
-        panelFormulario.setBackground(new java.awt.Color(252, 0, 0));
-        panelPrecios.setBackground(new java.awt.Color(181, 0, 252));
-        panelResumen.setBackground(new java.awt.Color(255, 169, 37));
+        panelFormularioAlta.setBackground(new java.awt.Color(252, 0, 0));
+        panelCobroTrabajos.setBackground(new java.awt.Color(181, 0, 252));
+        panelTrabajosCobrados.setBackground(new java.awt.Color(255, 169, 37));
 
         // Asignamos ciertas propiedades a los componentes y paneles
-        panelFormulario.setVisible(true);
-        panelPrecios.setVisible(false);
-        panelResumen.setVisible(false);
+        panelFormularioAlta.setVisible(true);
+        panelCobroTrabajos.setVisible(false);
+        panelTrabajosCobrados.setVisible(false);
 
         // Añadimos los listeners
-        botonFormulario.addActionListener(new ActionListener() {
+        botonMenuFormulario.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                panelFormulario.setVisible(true);
-                panelPrecios.setVisible(false);
-                panelResumen.setVisible(false);
+                panelFormularioAlta.setVisible(true);
+                panelCobroTrabajos.setVisible(false);
+                panelTrabajosCobrados.setVisible(false);
             }
         });
 
-        botonCalculos.addActionListener(new ActionListener() {
+        botonMenuCobro.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                panelFormulario.setVisible(false);
-                panelPrecios.setVisible(true);
-                panelResumen.setVisible(false);
+                panelFormularioAlta.setVisible(false);
+                panelCobroTrabajos.setVisible(true);
+                panelTrabajosCobrados.setVisible(false);
             }
         });
 
-        botonResumen.addActionListener(new ActionListener() {
+        botonMenuYaCobrados.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                panelFormulario.setVisible(false);
-                panelPrecios.setVisible(false);
-                panelResumen.setVisible(true);
+                panelFormularioAlta.setVisible(false);
+                panelCobroTrabajos.setVisible(false);
+                panelTrabajosCobrados.setVisible(true);
             }
         });
 
