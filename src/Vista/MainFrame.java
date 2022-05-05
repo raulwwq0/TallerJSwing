@@ -20,7 +20,10 @@ public class MainFrame extends JFrame {
     // Paneles ---------------------------------------------------------------------------------------------------------
     protected JPanel panelBase;
     protected JPanel panelMenu;
+    protected JPanel panelContenido;
     protected JPanel panelFormulario;
+    protected JPanel panelPrecios;
+    protected JPanel panelResumen;
 
     // Labels ----------------------------------------------------------------------------------------------------------
 
@@ -51,18 +54,27 @@ public class MainFrame extends JFrame {
 
         // Creamos los paneles y le ponemos un layout
         panelBase = new JPanel(new BorderLayout());
-        panelMenu = new JPanel();
+
+        panelMenu = new JPanel(new FlowLayout(FlowLayout.CENTER, GAP, GAP));
+        panelContenido = new JPanel(new FlowLayout(FlowLayout.CENTER, GAP, GAP));
+
         panelFormulario = new JPanel();
+        panelPrecios = new JPanel();
+        panelResumen = new JPanel();
 
         // Creamos los componentes
         botonFormulario = new JButton("Formulario");
-        botonCalculos = new JButton("Calculos");
+        botonCalculos = new JButton("Precios");
         botonResumen = new JButton("Resumen");
 
         // Ahora añadimos los paneles en la frame (ventana).
         this.add(panelBase);
         panelBase.add(panelMenu, BorderLayout.NORTH);
-        panelBase.add(panelFormulario, BorderLayout.CENTER);
+        panelBase.add(panelContenido, BorderLayout.CENTER);
+
+        panelContenido.add(panelFormulario);
+        panelContenido.add(panelPrecios);
+        panelContenido.add(panelResumen);
 
         // Añadimos los componentes a los paneles
         panelMenu.add(botonFormulario);
@@ -73,30 +85,41 @@ public class MainFrame extends JFrame {
         // Coloreamos los paneles para diferenciarlos
         panelBase.setBackground(new java.awt.Color(0, 0, 0));
         panelMenu.setBackground(new java.awt.Color(36, 243, 21));
-        panelFormulario.setBackground(new java.awt.Color(3, 252, 252));
+        panelContenido.setBackground(new java.awt.Color(3, 252, 252));
+        panelFormulario.setBackground(new java.awt.Color(252, 0, 0));
+        panelPrecios.setBackground(new java.awt.Color(181, 0, 252));
+        panelResumen.setBackground(new java.awt.Color(255, 169, 37));
 
         // Asignamos ciertas propiedades a los componentes y paneles
-
+        panelFormulario.setVisible(true);
+        panelPrecios.setVisible(false);
+        panelResumen.setVisible(false);
 
         // Añadimos los listeners
         botonFormulario.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // TODO Auto-generated method stub
+                panelFormulario.setVisible(true);
+                panelPrecios.setVisible(false);
+                panelResumen.setVisible(false);
             }
         });
 
         botonCalculos.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // TODO Auto-generated method stub
+                panelFormulario.setVisible(false);
+                panelPrecios.setVisible(true);
+                panelResumen.setVisible(false);
             }
         });
 
         botonResumen.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // TODO Auto-generated method stub
+                panelFormulario.setVisible(false);
+                panelPrecios.setVisible(false);
+                panelResumen.setVisible(true);
             }
         });
 
