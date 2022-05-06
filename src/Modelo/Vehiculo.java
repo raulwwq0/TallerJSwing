@@ -5,11 +5,11 @@ public class Vehiculo {
     protected String matricula;
     protected String modelo;
     protected String propietario;
-    protected char dniPropietario;
+    protected String dniPropietario;
 
     //COMPORTAMIENTO
     //Constructor
-    public Vehiculo(String nMatricula, String nModelo, String nPropietario, char nDniPropietario){
+    public Vehiculo(String nMatricula, String nModelo, String nPropietario, String nDniPropietario){
         this.matricula = nMatricula;
         this.modelo = nModelo;
         this.propietario = nPropietario;
@@ -42,11 +42,11 @@ public class Vehiculo {
         this.propietario = propietario;
     }
 
-    public char getDniPropietario() {
+    public String getDniPropietario() {
         return dniPropietario;
     }
 
-    public void setDniPropietario(char dniPropietario) {
+    public void setDniPropietario(String dniPropietario) {
         this.dniPropietario = dniPropietario;
     }
 
