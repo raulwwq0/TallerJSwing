@@ -1,7 +1,6 @@
 package Vista;
 
 import Controlador.ControladorTaller;
-import Modelo.TrabajoTaller;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -16,9 +15,6 @@ public class MainFrame extends JFrame {
 
     //Pixeles a usar en los Layouts como "hueco" entre componentes
     private static final byte GAP = 10;
-
-    //Enlace al controlador
-    // Por ahora nada...
 
     // Cosas del Panel Base --------------------------------------------------------------------------------------------
     protected JPanel panelBase;
@@ -46,10 +42,13 @@ public class MainFrame extends JFrame {
     protected JTextField tfModelo;
     protected JLabel labelDiagnostico;
     protected JTextArea taDiagnostico;
+    protected JScrollPane scrollDiagnostico;
     protected JLabel labelSolucion;
     protected JTextArea taSolucion;
+    protected JScrollPane scrollSolucion;
     protected JLabel labelHorasPrevistas;
     protected JTextField tfHorasPrevistas;
+    protected JButton botonAlta;
 
     // Cosas del Panel para cobrar trabajos ----------------------------------------------------------------------------
     protected JPanel panelCobroTrabajos;
@@ -85,7 +84,13 @@ public class MainFrame extends JFrame {
 
         panelMenu = new JPanel(new FlowLayout(FlowLayout.CENTER, GAP, GAP));
         panelContenido = new JPanel();
-        panelContenido.setLayout(new FlowLayout(FlowLayout.CENTER,GAP,GAP));
+
+        // Usando GridBagLayout podemos poner los paneles centrados de una forma más cómoda
+        panelContenido.setLayout(new GridBagLayout());
+
+        // Es necesario pasar ciertas configuraciones a GridBagLayout para que funcione, esto se hace al añadir los paneles
+        GridBagConstraints gbc = new GridBagConstraints();
+
 
         panelFormularioAlta = new JPanel();
         panelFormularioAlta.setLayout(new BoxLayout(panelFormularioAlta, BoxLayout.Y_AXIS));
@@ -102,35 +107,45 @@ public class MainFrame extends JFrame {
 
         labelTituloFormulario = new JLabel("ALTA DE NUEVOS VEHICULOS");
         labelMatricula = new JLabel("Matrícula:");
-        tfMatricula = new JTextField(10);
+        tfMatricula = new JTextField();
         labelDni = new JLabel("DNI Propietario:");
-        tfDni = new JTextField(10);
+        tfDni = new JTextField();
         labelPropietario = new JLabel("Propietario:");
-        tfPropietario = new JTextField(10);
+        tfPropietario = new JTextField();
         labelModelo = new JLabel("Modelo:");
-        tfModelo = new JTextField(10);
+        tfModelo = new JTextField();
         labelDiagnostico = new JLabel("Diagnóstico:");
-        taDiagnostico = new JTextArea(5, 10);
+        taDiagnostico = new JTextArea(20, 20);
+        scrollDiagnostico = new JScrollPane(taDiagnostico); // <- Con este scroll evitamos el bug de que se muevan las etiquetas al escribir en el textarea
         labelSolucion = new JLabel("Solución:");
-        taSolucion = new JTextArea(5, 10);
+        taSolucion = new JTextArea(20, 20);
+        scrollSolucion = new JScrollPane(taSolucion);
         labelHorasPrevistas = new JLabel("Horas previstas:");
-        tfHorasPrevistas = new JTextField(10);
+        tfHorasPrevistas = new JTextField();
+        botonAlta = new JButton("Dar de Alta");
 
         //Cobro trabajo de taller
-         botonCobroTrabajo = new JButton("Cobrar");
-         tCobroTrabajos = new JLabel("Cobro de trabajos");
+        botonCobroTrabajo = new JButton("Cobrar");
+        tCobroTrabajos = new JLabel("Cobro de trabajos");
         tSeleccione = new JLabel("Seleccione vehículo y trabajo realizado:");
-         tTotal = new JLabel("Total trabajos realizados : 0");
-         listaCobros = new JList(controladorTaller.getTrabajosACobrar().toArray());
+        tTotal = new JLabel("Total trabajos realizados : 0");
+        listaCobros = new JList(controladorTaller.getTrabajosACobrar().toArray());
 
         // Ahora añadimos los paneles en la frame (ventana).
         this.add(panelBase);
         panelBase.add(panelMenu, BorderLayout.NORTH);
         panelBase.add(panelContenido, BorderLayout.CENTER);
 
-        panelContenido.add(panelFormularioAlta);
-        panelContenido.add(panelCobroTrabajos);
-        panelContenido.add(panelTrabajosCobrados);
+
+        // Ahora con gridbaglayout tenemos que modificar las constantes para adaptar los paneles antes de añadirlos
+        gbc.fill = GridBagConstraints.BOTH;
+        gbc.weightx = 1;
+        gbc.weighty = 1;
+        gbc.insets = new Insets(100, 100, 100, 100);
+
+        panelContenido.add(panelFormularioAlta, gbc);
+        panelContenido.add(panelCobroTrabajos, gbc);
+        panelContenido.add(panelTrabajosCobrados, gbc);
 
         // Añadimos los componentes a los paneles
         panelMenu.add(botonMenuFormulario);
@@ -138,6 +153,7 @@ public class MainFrame extends JFrame {
         panelMenu.add(botonMenuYaCobrados);
 
         panelFormularioAlta.add(labelTituloFormulario);
+        panelFormularioAlta.add(Box.createRigidArea(new Dimension(0, 30))); // <- Para que se vea mejor, es un separador
         panelFormularioAlta.add(labelMatricula);
         panelFormularioAlta.add(tfMatricula);
         panelFormularioAlta.add(labelDni);
@@ -147,11 +163,13 @@ public class MainFrame extends JFrame {
         panelFormularioAlta.add(labelModelo);
         panelFormularioAlta.add(tfModelo);
         panelFormularioAlta.add(labelDiagnostico);
-        panelFormularioAlta.add(taDiagnostico);
+        panelFormularioAlta.add(scrollDiagnostico);
         panelFormularioAlta.add(labelSolucion);
-        panelFormularioAlta.add(taSolucion);
+        panelFormularioAlta.add(scrollSolucion);
         panelFormularioAlta.add(labelHorasPrevistas);
         panelFormularioAlta.add(tfHorasPrevistas);
+        panelFormularioAlta.add(Box.createRigidArea(new Dimension(0, 30)));
+        panelFormularioAlta.add(botonAlta);
 
         //Añadimos los componentes al panel de cobro trabajo taller
         panelCobroTrabajos.add(tCobroTrabajos);
@@ -175,7 +193,6 @@ public class MainFrame extends JFrame {
         panelTrabajosCobrados.setVisible(false);
 
         panelFormularioAlta.setBorder(margenes);
-
 
         // Añadimos los listeners
         botonMenuFormulario.addActionListener(new ActionListener() {
@@ -206,12 +223,12 @@ public class MainFrame extends JFrame {
         });
 
         //botonCobroTrabajo.addActionListener(new ActionListener() {
-            //@Override
-            //public void actionPerformed(ActionEvent e) {
-               // panelFormularioAlta.setVisible(false);
-               // panelCobroTrabajos.setVisible(false);
-              //  panelTrabajosCobrados.setVisible(true);
-            //}
+        //@Override
+        //public void actionPerformed(ActionEvent e) {
+        // panelFormularioAlta.setVisible(false);
+        // panelCobroTrabajos.setVisible(false);
+        //  panelTrabajosCobrados.setVisible(true);
+        //}
         //});
 
 
