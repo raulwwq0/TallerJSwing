@@ -1,5 +1,8 @@
 package Vista;
 
+import Controlador.ControladorTaller;
+import Modelo.TrabajoTaller;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -50,6 +53,11 @@ public class MainFrame extends JFrame {
 
     // Cosas del Panel para cobrar trabajos ----------------------------------------------------------------------------
     protected JPanel panelCobroTrabajos;
+    protected JButton botonCobroTrabajo;
+    protected JLabel tCobroTrabajos;
+    protected JLabel tSeleccione;
+    protected JLabel tTotal;
+    protected JList listaCobros;
 
     // Cosas del Panel para trabajos ya cobrados -----------------------------------------------------------------------
     protected JPanel panelTrabajosCobrados;
@@ -57,7 +65,9 @@ public class MainFrame extends JFrame {
 
     // Constructor #####################################################################################################
     public MainFrame(String title) {
+
         super(title);  //Para que se muestre el título
+
 
         //Bordes para los paneles
         Border blackline = BorderFactory.createLineBorder(Color.black);
@@ -67,17 +77,23 @@ public class MainFrame extends JFrame {
         this.setExtendedState(java.awt.Frame.MAXIMIZED_BOTH);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
+        //Instaciamos un controladorTaller
+        ControladorTaller controladorTaller = new ControladorTaller();
+
         // Creamos los paneles y le ponemos un layout
         panelBase = new JPanel(new BorderLayout());
 
         panelMenu = new JPanel(new FlowLayout(FlowLayout.CENTER, GAP, GAP));
         panelContenido = new JPanel();
-        panelContenido.setLayout(new BoxLayout(panelContenido, BoxLayout.Y_AXIS));
+        panelContenido.setLayout(new FlowLayout(FlowLayout.CENTER,GAP,GAP));
 
         panelFormularioAlta = new JPanel();
         panelFormularioAlta.setLayout(new BoxLayout(panelFormularioAlta, BoxLayout.Y_AXIS));
-        panelCobroTrabajos = new JPanel();
+
+        panelCobroTrabajos = new JPanel(new FlowLayout(FlowLayout.CENTER,GAP,GAP));
+        panelCobroTrabajos.setLayout(new BoxLayout(panelCobroTrabajos,BoxLayout.Y_AXIS));
         panelTrabajosCobrados = new JPanel();
+
 
         // Creamos los componentes
         botonMenuFormulario = new JButton("Alta Trabajo");
@@ -99,6 +115,13 @@ public class MainFrame extends JFrame {
         taSolucion = new JTextArea(5, 10);
         labelHorasPrevistas = new JLabel("Horas previstas:");
         tfHorasPrevistas = new JTextField(10);
+
+        //Cobro trabajo de taller
+         botonCobroTrabajo = new JButton("Cobrar");
+         tCobroTrabajos = new JLabel("Cobro de trabajos");
+        tSeleccione = new JLabel("Seleccione vehículo y trabajo realizado:");
+         tTotal = new JLabel("Total trabajos realizados : 0");
+         listaCobros = new JList(controladorTaller.getTrabajosACobrar().toArray());
 
         // Ahora añadimos los paneles en la frame (ventana).
         this.add(panelBase);
@@ -129,6 +152,13 @@ public class MainFrame extends JFrame {
         panelFormularioAlta.add(taSolucion);
         panelFormularioAlta.add(labelHorasPrevistas);
         panelFormularioAlta.add(tfHorasPrevistas);
+
+        //Añadimos los componentes al panel de cobro trabajo taller
+        panelCobroTrabajos.add(tCobroTrabajos);
+        panelCobroTrabajos.add(listaCobros);
+        panelCobroTrabajos.add(tSeleccione);
+        panelCobroTrabajos.add(tTotal);
+        panelCobroTrabajos.add(botonCobroTrabajo);
 
 
         // Coloreamos los paneles para diferenciarlos
@@ -174,6 +204,15 @@ public class MainFrame extends JFrame {
                 panelTrabajosCobrados.setVisible(true);
             }
         });
+
+        //botonCobroTrabajo.addActionListener(new ActionListener() {
+            //@Override
+            //public void actionPerformed(ActionEvent e) {
+               // panelFormularioAlta.setVisible(false);
+               // panelCobroTrabajos.setVisible(false);
+              //  panelTrabajosCobrados.setVisible(true);
+            //}
+        //});
 
 
     }
