@@ -1,4 +1,4 @@
-package com.politecnicomalaga.taller;
+package Modelo;
 
 public class Camion extends Vehiculo{
     public static final float precio = 40f;
