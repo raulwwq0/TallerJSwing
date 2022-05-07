@@ -11,11 +11,11 @@ public class ControladorTaller {
     // Lista de los tipos de vehiculos para el taller
     protected String[] tiposVehiculo = {"Coche", "Moto", "Furgón", "Camión"};
 
+    // Lista que guarda los trabajos realizados
+    protected ArrayList<TrabajoTaller> trabajosRealizados;
+
     //Lista de Trabajos a cobrar
     protected ArrayList<TrabajoTaller> trabajosACobrar;
-
-    //Contador de trabajos cobrados
-    protected int contadorCobros;
 
     //Variable String para erroes
     protected String mensajeError;
@@ -24,7 +24,7 @@ public class ControladorTaller {
 
     public ControladorTaller(){
         this.trabajosACobrar = new ArrayList<TrabajoTaller>();
-        contadorCobros = 0;
+        this.trabajosRealizados = new ArrayList<TrabajoTaller>();
         mensajeError = "";
     }
 
@@ -32,8 +32,13 @@ public class ControladorTaller {
 
 
     public void cobrarTrabajo(int indice){
-        trabajosACobrar.remove(indice);
-        contadorCobros ++;
+        //añadimos a la lista el cobro realizado y se elimina de la lista de cobros pendientes
+        trabajosRealizados.add(trabajosACobrar.remove(indice)); //remove también devuelve el objeto que borra
+    }
+
+    // llamamos al arrayList para coger el contador
+    public ArrayList<TrabajoTaller> getTrabajosRealizados() {
+        return trabajosRealizados;
     }
 
     public void addTrabajo(TrabajoTaller trabajo){

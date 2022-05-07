@@ -10,6 +10,8 @@ import java.awt.event.ActionListener;
 import javax.swing.*;
 import javax.swing.border.Border;
 
+import static javax.swing.JOptionPane.showMessageDialog;
+
 public class MainFrame extends JFrame {
 
     // Atributos #######################################################################################################
@@ -64,8 +66,8 @@ public class MainFrame extends JFrame {
 
     // Cosas del Panel para trabajos ya cobrados -----------------------------------------------------------------------
     protected JPanel panelTrabajosCobrados;
-    protected JLabel  tTrabajosYaCobrados;
-    protected JLabel  tTotalCobrados;
+    protected JLabel labelTrabajosYaCobrados;
+    protected JLabel labelTrabajosCobrados;
     protected JList   listaCobrados;
 
 
@@ -77,23 +79,28 @@ public class MainFrame extends JFrame {
 
 
         //Bordes para los paneles
+
         Border blackline = BorderFactory.createLineBorder(Color.black);
         Border padding = BorderFactory.createEmptyBorder(GAP, GAP, GAP, GAP);
 
         // Crear el frame.
+
         this.setExtendedState(java.awt.Frame.MAXIMIZED_BOTH);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         //Instaciamos un controladorTaller
+
         ControladorTaller controladorTaller = new ControladorTaller();
 
         // Creamos los paneles y le ponemos un layout
+
         panelBase = new JPanel(new BorderLayout());
 
         panelMenu = new JPanel(new FlowLayout(FlowLayout.CENTER, GAP, GAP));
         panelContenido = new JPanel();
 
         // Usando GridBagLayout podemos poner los paneles centrados de una forma más cómoda
+
         panelContenido.setLayout(new GridBagLayout());
 
         panelFormularioAlta = new JPanel();
@@ -105,6 +112,7 @@ public class MainFrame extends JFrame {
 
 
         // Creamos los componentes
+        
         botonMenuFormulario = new JButton("Alta Trabajo");
         botonMenuCobro = new JButton("Cobro Trabajo de Taller");
         botonMenuYaCobrados = new JButton("Trabajos ya cobrados");
@@ -131,6 +139,7 @@ public class MainFrame extends JFrame {
         botonAlta = new JButton("Dar de Alta");
 
         //Cobro trabajo de taller
+
         botonCobroTrabajo = new JButton("Cobrar");
         tCobroTrabajos = new JLabel("Cobro de trabajos");
         tSeleccione = new JLabel("Seleccione vehículo y trabajo realizado:");
@@ -139,35 +148,41 @@ public class MainFrame extends JFrame {
         scrollCobroLista = new JScrollPane(listaCobros);
 
         //Trabajos ya cobrados
-        tTrabajosYaCobrados = new JLabel("Trabajos ya cobrados");
-        tTotalCobrados = new JLabel("Total trabajos realizados : 0");
-        listaCobrados = new JList();
+
+        labelTrabajosYaCobrados = new JLabel("Trabajos ya cobrados");
+        labelTrabajosCobrados = new JLabel("Total trabajos realizados : " + controladorTaller.getTrabajosRealizados().size()); //añadimos el contador
+        listaCobrados = new JList(controladorTaller.getTrabajosRealizados().toArray());
 
         // Es necesario pasar ciertas configuraciones a GridBagLayout para que funcione, esto se hace al añadir los paneles
+
         GridBagConstraints gbcPanelFormulario = new GridBagConstraints();
         GridBagConstraints gbcPanelCobros = new GridBagConstraints();
         GridBagConstraints gbcPanelYaCobrados = new GridBagConstraints();
 
         // Ahora con gridbaglayout tenemos que modificar las constantes para adaptar los paneles antes de añadirlos
-
         // Con fill extendemos el panel, y es necesario usar weight distinto de 0 porque si no no se ajusta
+
         gbcPanelFormulario.fill = GridBagConstraints.BOTH;   // <- BOTH = Horizontal y vertical
         gbcPanelFormulario.weightx = 1;
         gbcPanelFormulario.weighty = 1;
 
         // Con insets ponemos un margen externo a los paneles
+
         gbcPanelFormulario.insets = new Insets(100, 100, 100, 100);
 
         // Con fill extendemos el panel, y es necesario usar weight distinto de 0 porque si no no se ajusta
+
         gbcPanelCobros.fill = GridBagConstraints.BOTH;   // <- BOTH = Horizontal y vertical
         gbcPanelCobros.weightx = 1;
         gbcPanelCobros.weighty = 1;
 
         // Con insets ponemos un margen externo a los paneles
+
         gbcPanelCobros.insets = new Insets(200, 400, 200,400);
 
 
         // Ahora añadimos los paneles en la frame (ventana).
+
         this.add(panelBase);
         panelBase.add(panelMenu, BorderLayout.NORTH);
         panelBase.add(panelContenido, BorderLayout.CENTER);
@@ -177,6 +192,7 @@ public class MainFrame extends JFrame {
         panelContenido.add(panelTrabajosCobrados, gbcPanelYaCobrados);
 
         // Añadimos los componentes a los paneles
+
         panelMenu.add(botonMenuFormulario);
         panelMenu.add(botonMenuCobro);
         panelMenu.add(botonMenuYaCobrados);
@@ -203,6 +219,7 @@ public class MainFrame extends JFrame {
         panelFormularioAlta.add(botonAlta);
 
         //Añadimos los componentes al panel de cobro trabajo taller
+
         panelCobroTrabajos.add(tCobroTrabajos);
         panelFormularioAlta.add(Box.createRigidArea(new Dimension(0, 40)));
         panelCobroTrabajos.add(tSeleccione);
@@ -212,11 +229,13 @@ public class MainFrame extends JFrame {
         panelCobroTrabajos.add(botonCobroTrabajo);
 
         //Añadimos los componentes al panel de trabajos ya cobrados
-        panelTrabajosCobrados.add(tTrabajosYaCobrados);
-        panelTrabajosCobrados.add(tTotalCobrados);
+
+        panelTrabajosCobrados.add(labelTrabajosYaCobrados);
+        panelTrabajosCobrados.add(labelTrabajosCobrados);
         panelTrabajosCobrados.add(listaCobrados);
 
         // Coloreamos los paneles para diferenciarlos
+
         panelBase.setBackground(new java.awt.Color(0, 0, 0));
         panelMenu.setBackground(new java.awt.Color(140, 220, 147));
         panelContenido.setBackground(new java.awt.Color(140, 197, 220));
@@ -225,14 +244,17 @@ public class MainFrame extends JFrame {
         panelTrabajosCobrados.setBackground(new java.awt.Color(255, 226, 140));
 
         // Asignamos ciertas propiedades a los componentes y paneles
+
         panelFormularioAlta.setVisible(true);
         panelCobroTrabajos.setVisible(false);
         panelTrabajosCobrados.setVisible(false);
 
         // Con esto le metemos un padding al panel para que los componentes no queden muy pegados al borde
+
         panelFormularioAlta.setBorder(padding);
 
         // Para que los componentes no se coloquen donde no deberían tenemos que forzar que TODOS los componentes tengan una posición fija
+
         labelTituloFormulario.setAlignmentX(Component.LEFT_ALIGNMENT);
         labelTipo.setAlignmentX(Component.LEFT_ALIGNMENT);
         comboTipo.setAlignmentX(Component.LEFT_ALIGNMENT);
@@ -251,9 +273,13 @@ public class MainFrame extends JFrame {
         labelHorasPrevistas.setAlignmentX(Component.LEFT_ALIGNMENT);
         tfHorasPrevistas.setAlignmentX(Component.LEFT_ALIGNMENT);
         botonAlta.setAlignmentX(Component.LEFT_ALIGNMENT);
+
         //Para que los componente no esten tan a la izquierda
+
         panelCobroTrabajos.setBorder(padding);
+
         //Para los componentes del panel de cobro también los tenemos que poner a la izquierda
+
         botonCobroTrabajo.setAlignmentX(Component.LEFT_ALIGNMENT);
         tCobroTrabajos.setAlignmentX(Component.LEFT_ALIGNMENT);
         tSeleccione.setAlignmentX(Component.LEFT_ALIGNMENT);
@@ -262,6 +288,7 @@ public class MainFrame extends JFrame {
         scrollCobroLista.setAlignmentX(Component.LEFT_ALIGNMENT);
 
         // Añadimos los listeners
+
         botonMenuFormulario.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -301,6 +328,7 @@ public class MainFrame extends JFrame {
                 if(codigoDeError == 0){
 
                     // Dependiendo del vehículo que seleccionemos, creamos un objeto de ese tipo
+
                     switch (indiceTipoVehiculo) {
                         case 0:
                             vehiculo = new Coche(tfMatricula.getText(), tfModelo.getText(), tfPropietario.getText(), tfDni.getText());
@@ -327,7 +355,7 @@ public class MainFrame extends JFrame {
                     listaCobros.setListData(controladorTaller.getTrabajosACobrar().toArray());
 
                     // Mostramos un mensaje de que ha salido bien
-                    System.out.println("Trabajo añadido");
+                    showMessageDialog(panelFormularioAlta, "Trabajo añadido");
 
                     //Cambiamos la label de trabajos a cobrar
                     tTotal.setText("Total trabajos por cobrar: "+ controladorTaller.getTrabajosACobrar().size());
@@ -336,13 +364,13 @@ public class MainFrame extends JFrame {
                     // Dependiendo del error, mostramos un mensaje de error
                     switch (codigoDeError) {
                         case 1:
-                            System.out.println("Campos vacios");
+                            showMessageDialog(panelFormularioAlta, "Por favor rellene todos los campos");
                             break;
                         case 2:
-                            System.out.println("Horas no en numero");
+                            showMessageDialog(panelFormularioAlta, "Especifique las horas en formato numérico");
                             break;
                         case 3:
-                            System.out.println("DNI no valido");
+                            showMessageDialog(panelFormularioAlta, "Inserte un DNI válido");
                             break;
                     }
                 }
@@ -382,11 +410,12 @@ public class MainFrame extends JFrame {
         @Override
         public void actionPerformed(ActionEvent e) {
             controladorTaller.cobrarTrabajo(listaCobros.getSelectedIndex());
-            listaCobros.setListData(controladorTaller.getTrabajosACobrar().toArray());
+            listaCobros.setListData(controladorTaller.getTrabajosACobrar().toArray()); //actualizamos lista en pantalla
             tTotal.setText("Total trabajos por cobrar: "+ controladorTaller.getTrabajosACobrar().size());
+            labelTrabajosCobrados.setText("Total trabajos realizados :" + controladorTaller.getTrabajosRealizados().size());
+            listaCobrados.setListData(controladorTaller.getTrabajosRealizados().toArray()); // actualizar la lista en pantalla
         }
         });
-
 
     }
 
