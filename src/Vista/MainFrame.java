@@ -95,10 +95,6 @@ public class MainFrame extends JFrame {
         // Usando GridBagLayout podemos poner los paneles centrados de una forma más cómoda
         panelContenido.setLayout(new GridBagLayout());
 
-        // Es necesario pasar ciertas configuraciones a GridBagLayout para que funcione, esto se hace al añadir los paneles
-        GridBagConstraints gbc = new GridBagConstraints();
-
-
         panelFormularioAlta = new JPanel();
         panelFormularioAlta.setLayout(new BoxLayout(panelFormularioAlta, BoxLayout.Y_AXIS));
 
@@ -145,25 +141,30 @@ public class MainFrame extends JFrame {
         tTotalCobrados = new JLabel("Total trabajos realizados : 0");
         listaCobrados = new JList();
 
+        // Es necesario pasar ciertas configuraciones a GridBagLayout para que funcione, esto se hace al añadir los paneles
+        GridBagConstraints gbcPanelFormulario = new GridBagConstraints();
+        GridBagConstraints gbcPanelCobros = new GridBagConstraints();
+        GridBagConstraints gbcPanelYaCobrados = new GridBagConstraints();
+
+        // Ahora con gridbaglayout tenemos que modificar las constantes para adaptar los paneles antes de añadirlos
+
+        // Con fill extendemos el panel, y es necesario usar weight distinto de 0 porque si no no se ajusta
+        gbcPanelFormulario.fill = GridBagConstraints.BOTH;   // <- BOTH = Horizontal y vertical
+        gbcPanelFormulario.weightx = 1;
+        gbcPanelFormulario.weighty = 1;
+
+        // Con insets ponemos un margen externo a los paneles
+        gbcPanelFormulario.insets = new Insets(100, 100, 100, 100);
+
+
         // Ahora añadimos los paneles en la frame (ventana).
         this.add(panelBase);
         panelBase.add(panelMenu, BorderLayout.NORTH);
         panelBase.add(panelContenido, BorderLayout.CENTER);
 
-
-        // Ahora con gridbaglayout tenemos que modificar las constantes para adaptar los paneles antes de añadirlos
-
-        // Con fill extendemos el panel, y es necesario usar weight distinto de 0 porque si no no se ajusta
-        gbc.fill = GridBagConstraints.BOTH;   // <- BOTH = Horizontal y vertical
-        gbc.weightx = 1;
-        gbc.weighty = 1;
-
-        // Con insets ponemos un margen externo a los paneles
-        gbc.insets = new Insets(100, 100, 100, 100);
-
-        panelContenido.add(panelFormularioAlta, gbc);
-        panelContenido.add(panelCobroTrabajos, gbc);
-        panelContenido.add(panelTrabajosCobrados, gbc);
+        panelContenido.add(panelFormularioAlta, gbcPanelFormulario);
+        panelContenido.add(panelCobroTrabajos, gbcPanelCobros);
+        panelContenido.add(panelTrabajosCobrados, gbcPanelYaCobrados);
 
         // Añadimos los componentes a los paneles
         panelMenu.add(botonMenuFormulario);
