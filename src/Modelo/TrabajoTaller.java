@@ -82,13 +82,15 @@ public class TrabajoTaller {
 
     @Override
     public String toString() {
-        return "TrabajoTaller{" +
-                "miVehiculo=" + miVehiculo +
-                ", fechaEntrada=" + fechaEntrada +
-                ", diagnostico='" + diagnostico + '\'' +
-                ", resolucion='" + resolucion + '\'' +
-                ", hTrabPrevistas=" + hTrabPrevistas +
-                ", hTrabRealizadas=" + hTrabRealizadas +
-                '}';
+        return "<html>" +
+                "TrabajoTaller{" +
+                "<br> &emsp; miVehiculo=" + miVehiculo +
+                "<br> &emsp; fechaEntrada=" + fechaEntrada +
+                "<br> &emsp; diagnostico='" + diagnostico + '\'' +
+                "<br> &emsp; resolucion='" + resolucion + '\'' +
+                "<br> &emsp; hTrabPrevistas=" + hTrabPrevistas +
+                "<br> &emsp; hTrabRealizadas=" + hTrabRealizadas +
+                "<br> }" +
+                "</html>";
     }
 }

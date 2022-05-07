@@ -54,11 +54,11 @@ public class Vehiculo {
     @Override
     public String toString() {
         return "Vehiculo{" +
-                "tipo='" + tipo + '\'' +
-                ", matricula='" + matricula + '\'' +
-                ", modelo='" + modelo + '\'' +
-                ", propietario='" + propietario + '\'' +
-                ", dniPropietario=" + dniPropietario +
-                '}';
+                "<br> &emsp; &emsp; tipo='" + tipo + '\'' +
+                "<br> &emsp; &emsp; matricula='" + matricula + '\'' +
+                "<br> &emsp; &emsp; modelo='" + modelo + '\'' +
+                "<br> &emsp; &emsp; propietario='" + propietario + '\'' +
+                "<br> &emsp; &emsp; dniPropietario=" + dniPropietario +
+                "<br> &emsp; }";
     }
 }
