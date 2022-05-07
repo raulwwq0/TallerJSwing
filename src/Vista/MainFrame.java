@@ -221,9 +221,9 @@ public class MainFrame extends JFrame {
         //Añadimos los componentes al panel de cobro trabajo taller
 
         panelCobroTrabajos.add(tCobroTrabajos);
-        panelFormularioAlta.add(Box.createRigidArea(new Dimension(0, 40)));
+        panelCobroTrabajos.add(Box.createRigidArea(new Dimension(0, 20)));
         panelCobroTrabajos.add(tSeleccione);
-        panelFormularioAlta.add(Box.createRigidArea(new Dimension(0, 40)));
+        panelCobroTrabajos.add(Box.createRigidArea(new Dimension(0, 20)));
         panelCobroTrabajos.add(tTotal);
         panelCobroTrabajos.add(scrollCobroLista);
         panelCobroTrabajos.add(botonCobroTrabajo);
