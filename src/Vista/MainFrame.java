@@ -204,7 +204,9 @@ public class MainFrame extends JFrame {
 
         //Añadimos los componentes al panel de cobro trabajo taller
         panelCobroTrabajos.add(tCobroTrabajos);
+        panelFormularioAlta.add(Box.createRigidArea(new Dimension(0, 40)));
         panelCobroTrabajos.add(tSeleccione);
+        panelFormularioAlta.add(Box.createRigidArea(new Dimension(0, 40)));
         panelCobroTrabajos.add(tTotal);
         panelCobroTrabajos.add(scrollCobroLista);
         panelCobroTrabajos.add(botonCobroTrabajo);
@@ -249,7 +251,8 @@ public class MainFrame extends JFrame {
         labelHorasPrevistas.setAlignmentX(Component.LEFT_ALIGNMENT);
         tfHorasPrevistas.setAlignmentX(Component.LEFT_ALIGNMENT);
         botonAlta.setAlignmentX(Component.LEFT_ALIGNMENT);
-
+        //Para que los componente no esten tan a la izquierda
+        panelCobroTrabajos.setBorder(padding);
         //Para los componentes del panel de cobro también los tenemos que poner a la izquierda
         botonCobroTrabajo.setAlignmentX(Component.LEFT_ALIGNMENT);
         tCobroTrabajos.setAlignmentX(Component.LEFT_ALIGNMENT);
