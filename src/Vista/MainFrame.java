@@ -1,6 +1,7 @@
 package Vista;
 
 import Controlador.ControladorTaller;
+import Modelo.*;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -238,6 +239,81 @@ public class MainFrame extends JFrame {
                 panelFormularioAlta.setVisible(false);
                 panelCobroTrabajos.setVisible(false);
                 panelTrabajosCobrados.setVisible(true);
+            }
+        });
+
+        botonAlta.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int codigoDeError = this.controlDeErrores();
+                int indiceTipoVehiculo = comboTipo.getSelectedIndex();
+                Vehiculo vehiculo = null;
+                TrabajoTaller trabajoTaller;
+
+                if(codigoDeError == 0){
+                    switch (indiceTipoVehiculo) {
+                        case 0:
+                            vehiculo = new Coche(tfMatricula.getText(), tfModelo.getText(), tfPropietario.getText(), tfDni.getText());
+                            break;
+                        case 1:
+                            vehiculo = new Moto(tfMatricula.getText(), tfModelo.getText(), tfPropietario.getText(), tfDni.getText());
+                            break;
+                        case 2:
+                            vehiculo = new Furgon(tfMatricula.getText(), tfModelo.getText(), tfPropietario.getText(), tfDni.getText());
+                            break;
+                        case 3:
+                            vehiculo = new Camion(tfMatricula.getText(), tfModelo.getText(), tfPropietario.getText(), tfDni.getText());
+
+                            break;
+                    }
+                    System.out.println(comboTipo.getSelectedIndex());
+                    trabajoTaller = new TrabajoTaller(vehiculo, taDiagnostico.getText(), taSolucion.getText(), Integer.parseInt(tfHorasPrevistas.getText()));
+                    controladorTaller.addTrabajo(trabajoTaller);
+                    listaCobros.setListData(controladorTaller.getTrabajosACobrar().toArray());
+                    System.out.println("Trabajo añadido");
+
+                } else {
+                    switch (codigoDeError) {
+                        case 1:
+                            System.out.println("Campos vacios");
+                            break;
+                        case 2:
+                            System.out.println("Horas no en numero");
+                            break;
+                        case 3:
+                            System.out.println("DNI no valido");
+                            break;
+                    }
+                }
+
+            }
+
+            private int controlDeErrores() {
+                // Comprobamos que los campos no estén vacíos
+                if (tfMatricula.getText().isEmpty() ||
+                        tfDni.getText().isEmpty() ||
+                        tfPropietario.getText().isEmpty() ||
+                        tfModelo.getText().isEmpty() ||
+                        taDiagnostico.getText().isEmpty() ||
+                        taSolucion.getText().isEmpty() ||
+                        tfHorasPrevistas.getText().isEmpty()) {
+
+                    return 1;
+                } else {
+                    // Comprobamos que el campo horas previstas sea un número
+                    try {
+                        Integer.parseInt(tfHorasPrevistas.getText());
+                    } catch (NumberFormatException e) {
+                        return 2;
+                    }
+
+                    // Comprobamos el formato del DNI
+                    if (!tfDni.getText().matches("^\\d{8}[A-Z]$")) {
+                        return 3;
+                    }
+                }
+
+                return 0;
             }
         });
 

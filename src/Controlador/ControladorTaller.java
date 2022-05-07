@@ -36,6 +36,10 @@ public class ControladorTaller {
         contadorCobros ++;
     }
 
+    public void addTrabajo(TrabajoTaller trabajo){
+        trabajosACobrar.add(trabajo);
+    }
+
     //Getter de la lista
     public ArrayList<TrabajoTaller> getTrabajosACobrar() {
         return trabajosACobrar;
