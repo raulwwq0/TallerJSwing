@@ -77,7 +77,7 @@ public class MainFrame extends JFrame {
 
         //Bordes para los paneles
         Border blackline = BorderFactory.createLineBorder(Color.black);
-        Border margenes = BorderFactory.createEmptyBorder(GAP, GAP, GAP, GAP);
+        Border padding = BorderFactory.createEmptyBorder(GAP, GAP, GAP, GAP);
 
         // Crear el frame.
         this.setExtendedState(java.awt.Frame.MAXIMIZED_BOTH);
@@ -124,10 +124,10 @@ public class MainFrame extends JFrame {
         labelModelo = new JLabel("Modelo:");
         tfModelo = new JTextField();
         labelDiagnostico = new JLabel("Diagnóstico:");
-        taDiagnostico = new JTextArea(20, 20);
+        taDiagnostico = new JTextArea(20, 0);
         scrollDiagnostico = new JScrollPane(taDiagnostico); // <- Con este scroll evitamos el bug de que se muevan las etiquetas al escribir en el textarea
         labelSolucion = new JLabel("Solución:");
-        taSolucion = new JTextArea(20, 20);
+        taSolucion = new JTextArea(20, 0);
         scrollSolucion = new JScrollPane(taSolucion);
         labelHorasPrevistas = new JLabel("Horas previstas:");
         tfHorasPrevistas = new JTextField();
@@ -152,9 +152,13 @@ public class MainFrame extends JFrame {
 
 
         // Ahora con gridbaglayout tenemos que modificar las constantes para adaptar los paneles antes de añadirlos
-        gbc.fill = GridBagConstraints.BOTH;
+
+        // Con fill extendemos el panel, y es necesario usar weight distinto de 0 porque si no no se ajusta
+        gbc.fill = GridBagConstraints.BOTH;   // <- BOTH = Horizontal y vertical
         gbc.weightx = 1;
         gbc.weighty = 1;
+
+        // Con insets ponemos un margen externo a los paneles
         gbc.insets = new Insets(100, 100, 100, 100);
 
         panelContenido.add(panelFormularioAlta, gbc);
@@ -212,7 +216,28 @@ public class MainFrame extends JFrame {
         panelCobroTrabajos.setVisible(false);
         panelTrabajosCobrados.setVisible(false);
 
-        panelFormularioAlta.setBorder(margenes);
+        // Con esto le metemos un padding al panel para que los componentes no queden muy pegados al borde
+        panelFormularioAlta.setBorder(padding);
+
+        // Para que los componentes no se coloquen donde no deberían tenemos que forzar que TODOS los componentes tengan una posición fija
+        labelTituloFormulario.setAlignmentX(Component.LEFT_ALIGNMENT);
+        labelTipo.setAlignmentX(Component.LEFT_ALIGNMENT);
+        comboTipo.setAlignmentX(Component.LEFT_ALIGNMENT);
+        labelMatricula.setAlignmentX(Component.LEFT_ALIGNMENT);
+        tfMatricula.setAlignmentX(Component.LEFT_ALIGNMENT);
+        labelDni.setAlignmentX(Component.LEFT_ALIGNMENT);
+        tfDni.setAlignmentX(Component.LEFT_ALIGNMENT);
+        labelPropietario.setAlignmentX(Component.LEFT_ALIGNMENT);
+        tfPropietario.setAlignmentX(Component.LEFT_ALIGNMENT);
+        labelModelo.setAlignmentX(Component.LEFT_ALIGNMENT);
+        tfModelo.setAlignmentX(Component.LEFT_ALIGNMENT);
+        labelDiagnostico.setAlignmentX(Component.LEFT_ALIGNMENT);
+        scrollDiagnostico.setAlignmentX(Component.LEFT_ALIGNMENT);
+        labelSolucion.setAlignmentX(Component.LEFT_ALIGNMENT);
+        scrollSolucion.setAlignmentX(Component.LEFT_ALIGNMENT);
+        labelHorasPrevistas.setAlignmentX(Component.LEFT_ALIGNMENT);
+        tfHorasPrevistas.setAlignmentX(Component.LEFT_ALIGNMENT);
+        botonAlta.setAlignmentX(Component.LEFT_ALIGNMENT);
 
         // Añadimos los listeners
         botonMenuFormulario.addActionListener(new ActionListener() {
@@ -250,7 +275,10 @@ public class MainFrame extends JFrame {
                 Vehiculo vehiculo = null;
                 TrabajoTaller trabajoTaller;
 
+                // Comprobamos si no tenemos errores
                 if(codigoDeError == 0){
+
+                    // Dependiendo del vehículo que seleccionemos, creamos un objeto de ese tipo
                     switch (indiceTipoVehiculo) {
                         case 0:
                             vehiculo = new Coche(tfMatricula.getText(), tfModelo.getText(), tfPropietario.getText(), tfDni.getText());
@@ -266,13 +294,21 @@ public class MainFrame extends JFrame {
 
                             break;
                     }
-                    System.out.println(comboTipo.getSelectedIndex());
+
+                    // Creamos el trabajo
                     trabajoTaller = new TrabajoTaller(vehiculo, taDiagnostico.getText(), taSolucion.getText(), Integer.parseInt(tfHorasPrevistas.getText()));
+
+                    // Añadimos el trabajo a la lista
                     controladorTaller.addTrabajo(trabajoTaller);
+
+                    // Usamos setListData para que se actualice la lista
                     listaCobros.setListData(controladorTaller.getTrabajosACobrar().toArray());
+
+                    // Mostramos un mensaje de que ha salido bien
                     System.out.println("Trabajo añadido");
 
                 } else {
+                    // Dependiendo del error, mostramos un mensaje de error
                     switch (codigoDeError) {
                         case 1:
                             System.out.println("Campos vacios");
