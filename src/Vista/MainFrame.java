@@ -60,6 +60,7 @@ public class MainFrame extends JFrame {
     protected JLabel tSeleccione;
     protected JLabel tTotal;
     protected JList listaCobros;
+    protected JScrollPane scrollCobroLista;
 
     // Cosas del Panel para trabajos ya cobrados -----------------------------------------------------------------------
     protected JPanel panelTrabajosCobrados;
@@ -133,8 +134,9 @@ public class MainFrame extends JFrame {
         botonCobroTrabajo = new JButton("Cobrar");
         tCobroTrabajos = new JLabel("Cobro de trabajos");
         tSeleccione = new JLabel("Seleccione vehículo y trabajo realizado:");
-        tTotal = new JLabel("Total trabajos realizados : 0");
+        tTotal = new JLabel("Total trabajos por cobrar : 0");
         listaCobros = new JList(controladorTaller.getTrabajosACobrar().toArray());
+        scrollCobroLista = new JScrollPane(listaCobros);
 
         //Trabajos ya cobrados
         tTrabajosYaCobrados = new JLabel("Trabajos ya cobrados");
@@ -155,6 +157,14 @@ public class MainFrame extends JFrame {
 
         // Con insets ponemos un margen externo a los paneles
         gbcPanelFormulario.insets = new Insets(100, 100, 100, 100);
+
+        // Con fill extendemos el panel, y es necesario usar weight distinto de 0 porque si no no se ajusta
+        gbcPanelCobros.fill = GridBagConstraints.BOTH;   // <- BOTH = Horizontal y vertical
+        gbcPanelCobros.weightx = 1;
+        gbcPanelCobros.weighty = 1;
+
+        // Con insets ponemos un margen externo a los paneles
+        gbcPanelCobros.insets = new Insets(200, 400, 200,400);
 
 
         // Ahora añadimos los paneles en la frame (ventana).
@@ -196,7 +206,7 @@ public class MainFrame extends JFrame {
         panelCobroTrabajos.add(tCobroTrabajos);
         panelCobroTrabajos.add(tSeleccione);
         panelCobroTrabajos.add(tTotal);
-        panelCobroTrabajos.add(listaCobros);
+        panelCobroTrabajos.add(scrollCobroLista);
         panelCobroTrabajos.add(botonCobroTrabajo);
 
         //Añadimos los componentes al panel de trabajos ya cobrados
@@ -354,14 +364,13 @@ public class MainFrame extends JFrame {
             }
         });
 
-        //botonCobroTrabajo.addActionListener(new ActionListener() {
-        //@Override
-        //public void actionPerformed(ActionEvent e) {
-        // panelFormularioAlta.setVisible(false);
-        // panelCobroTrabajos.setVisible(false);
-        //  panelTrabajosCobrados.setVisible(true);
-        //}
-        //});
+        botonCobroTrabajo.addActionListener(new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            controladorTaller.cobrarTrabajo(listaCobros.getSelectedIndex());
+            listaCobros.setListData(controladorTaller.getTrabajosACobrar().toArray());
+        }
+        });
 
 
     }
