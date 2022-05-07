@@ -62,6 +62,10 @@ public class MainFrame extends JFrame {
 
     // Cosas del Panel para trabajos ya cobrados -----------------------------------------------------------------------
     protected JPanel panelTrabajosCobrados;
+    protected JLabel  tTrabajosYaCobrados;
+    protected JLabel  tTotalCobrados;
+    protected JList   listaCobrados;
+
 
 
     // Constructor #####################################################################################################
@@ -135,6 +139,11 @@ public class MainFrame extends JFrame {
         tTotal = new JLabel("Total trabajos realizados : 0");
         listaCobros = new JList(controladorTaller.getTrabajosACobrar().toArray());
 
+        //Trabajos ya cobrados
+        tTrabajosYaCobrados = new JLabel("Trabajos ya cobrados");
+        tTotalCobrados = new JLabel("Total trabajos realizados : 0");
+        listaCobrados = new JList();
+
         // Ahora añadimos los paneles en la frame (ventana).
         this.add(panelBase);
         panelBase.add(panelMenu, BorderLayout.NORTH);
@@ -184,6 +193,10 @@ public class MainFrame extends JFrame {
         panelCobroTrabajos.add(tTotal);
         panelCobroTrabajos.add(botonCobroTrabajo);
 
+        //Añadimos los componentes al panel de trabajos ya cobrados
+        panelTrabajosCobrados.add(tTrabajosYaCobrados);
+        panelTrabajosCobrados.add(tTotalCobrados);
+        panelTrabajosCobrados.add(listaCobrados);
 
         // Coloreamos los paneles para diferenciarlos
         panelBase.setBackground(new java.awt.Color(0, 0, 0));
