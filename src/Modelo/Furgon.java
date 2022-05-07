@@ -5,5 +5,6 @@ public class Furgon extends Vehiculo{
 
     public Furgon(String matricula,String modelo ,String propietario ,String DniPropietario){
         super(matricula,modelo,propietario,DniPropietario);
+        tipo = "Furgon";
     }
 }

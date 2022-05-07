@@ -6,6 +6,7 @@ public class Vehiculo {
     protected String modelo;
     protected String propietario;
     protected String dniPropietario;
+    protected String tipo;
 
     //COMPORTAMIENTO
     //Constructor
@@ -53,7 +54,8 @@ public class Vehiculo {
     @Override
     public String toString() {
         return "Vehiculo{" +
-                "matricula='" + matricula + '\'' +
+                "tipo='" + tipo + '\'' +
+                ", matricula='" + matricula + '\'' +
                 ", modelo='" + modelo + '\'' +
                 ", propietario='" + propietario + '\'' +
                 ", dniPropietario=" + dniPropietario +
