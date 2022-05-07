@@ -250,6 +250,14 @@ public class MainFrame extends JFrame {
         tfHorasPrevistas.setAlignmentX(Component.LEFT_ALIGNMENT);
         botonAlta.setAlignmentX(Component.LEFT_ALIGNMENT);
 
+        //Para los componentes del panel de cobro también los tenemos que poner a la izquierda
+        botonCobroTrabajo.setAlignmentX(Component.LEFT_ALIGNMENT);
+        tCobroTrabajos.setAlignmentX(Component.LEFT_ALIGNMENT);
+        tSeleccione.setAlignmentX(Component.LEFT_ALIGNMENT);
+        tTotal.setAlignmentX(Component.LEFT_ALIGNMENT);
+        listaCobros.setAlignmentX(Component.LEFT_ALIGNMENT);
+        scrollCobroLista.setAlignmentX(Component.LEFT_ALIGNMENT);
+
         // Añadimos los listeners
         botonMenuFormulario.addActionListener(new ActionListener() {
             @Override
@@ -372,6 +380,7 @@ public class MainFrame extends JFrame {
         public void actionPerformed(ActionEvent e) {
             controladorTaller.cobrarTrabajo(listaCobros.getSelectedIndex());
             listaCobros.setListData(controladorTaller.getTrabajosACobrar().toArray());
+            tTotal.setText("Total trabajos por cobrar: "+ controladorTaller.getTrabajosACobrar().size());
         }
         });
 
