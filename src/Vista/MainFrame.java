@@ -318,6 +318,9 @@ public class MainFrame extends JFrame {
                     // Mostramos un mensaje de que ha salido bien
                     System.out.println("Trabajo añadido");
 
+                    //Cambiamos la label de trabajos a cobrar
+                    tTotal.setText("Total trabajos por cobrar: "+ controladorTaller.getTrabajosACobrar().size());
+
                 } else {
                     // Dependiendo del error, mostramos un mensaje de error
                     switch (codigoDeError) {
