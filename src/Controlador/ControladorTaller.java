@@ -8,6 +8,9 @@ import java.util.ArrayList;
 public class ControladorTaller {
     //ESTADO //////////////////////////////////////////////////////////////////////////////////
 
+    // Lista de los tipos de vehiculos para el taller
+    protected String[] tiposVehiculo = {"Coche", "Moto", "Furgón", "Camión"};
+
     //Lista de Trabajos a cobrar
     protected ArrayList<TrabajoTaller> trabajosACobrar;
 
@@ -36,5 +39,9 @@ public class ControladorTaller {
     //Getter de la lista
     public ArrayList<TrabajoTaller> getTrabajosACobrar() {
         return trabajosACobrar;
+    }
+
+    public String[] getTiposVehiculo() {
+        return tiposVehiculo;
     }
 }

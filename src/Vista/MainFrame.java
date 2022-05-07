@@ -31,6 +31,8 @@ public class MainFrame extends JFrame {
     // Cosas del Panel Formulario de Alta ------------------------------------------------------------------------------
     protected JPanel panelFormularioAlta;
 
+    protected JLabel labelTipo;
+    protected JComboBox comboTipo;
     protected JLabel labelTituloFormulario;
     protected JLabel labelMatricula;
     protected JTextField tfMatricula;
@@ -106,6 +108,8 @@ public class MainFrame extends JFrame {
         botonMenuYaCobrados = new JButton("Trabajos ya cobrados");
 
         labelTituloFormulario = new JLabel("ALTA DE NUEVOS VEHICULOS");
+        labelTipo = new JLabel("Tipo de Vehiculo:");
+        comboTipo = new JComboBox(controladorTaller.getTiposVehiculo());
         labelMatricula = new JLabel("Matrícula:");
         tfMatricula = new JTextField();
         labelDni = new JLabel("DNI Propietario:");
@@ -154,6 +158,8 @@ public class MainFrame extends JFrame {
 
         panelFormularioAlta.add(labelTituloFormulario);
         panelFormularioAlta.add(Box.createRigidArea(new Dimension(0, 30))); // <- Para que se vea mejor, es un separador
+        panelFormularioAlta.add(labelTipo);
+        panelFormularioAlta.add(comboTipo);
         panelFormularioAlta.add(labelMatricula);
         panelFormularioAlta.add(tfMatricula);
         panelFormularioAlta.add(labelDni);
