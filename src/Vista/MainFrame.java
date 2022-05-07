@@ -193,9 +193,9 @@ public class MainFrame extends JFrame {
 
         //Añadimos los componentes al panel de cobro trabajo taller
         panelCobroTrabajos.add(tCobroTrabajos);
-        panelCobroTrabajos.add(listaCobros);
         panelCobroTrabajos.add(tSeleccione);
         panelCobroTrabajos.add(tTotal);
+        panelCobroTrabajos.add(listaCobros);
         panelCobroTrabajos.add(botonCobroTrabajo);
 
         //Añadimos los componentes al panel de trabajos ya cobrados
