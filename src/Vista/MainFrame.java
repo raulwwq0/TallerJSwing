@@ -19,7 +19,7 @@ public class MainFrame extends JFrame {
     // Atributos #######################################################################################################
 
     //Pixeles a usar en los Layouts como "hueco" entre componentes
-    private static final byte GAP = 10;
+    private static final byte GAP_SEPARACION = 10;
 
     // Cosas del Panel Base --------------------------------------------------------------------------------------------
     protected JPanel panelBase;
@@ -77,28 +77,39 @@ public class MainFrame extends JFrame {
     // Constructor #####################################################################################################
     public MainFrame(String title) {
 
-        super(title);  //Para que se muestre el título
+        //Para que se muestre el título
+        super(title);
 
+        // BORDES ######################################################################################################
 
-        //Bordes para los paneles
+        // Usando un borde vacío podremos simular una zona de separación entre componentes (padding)
+        Border padding = BorderFactory.createEmptyBorder(GAP_SEPARACION, GAP_SEPARACION, GAP_SEPARACION, GAP_SEPARACION);
 
-        Border blackline = BorderFactory.createLineBorder(Color.black);
-        Border padding = BorderFactory.createEmptyBorder(GAP, GAP, GAP, GAP);
-
-        // Crear el frame.
+        // CREACION DEL FRAME ##########################################################################################
 
         this.setExtendedState(java.awt.Frame.MAXIMIZED_BOTH);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        //Instaciamos un controladorTaller
+        // CONTROLADOR DEL TALLER ######################################################################################
 
         ControladorTaller controladorTaller = new ControladorTaller();
 
-        // Creamos los paneles y le ponemos un layout
+
+
+
+
+        // CREACION DE PANELES Y LAYOUTS ###############################################################################
+
+        // Panel Base (Usa un layout de tipo BorderLayout) -------------------------------------------------------------
 
         panelBase = new JPanel(new BorderLayout());
 
-        panelMenu = new JPanel(new FlowLayout(FlowLayout.CENTER, GAP, GAP));
+        // Panel Menu (Usa un layout de tipo FlowLayout) ---------------------------------------------------------------
+
+        panelMenu = new JPanel(new FlowLayout(FlowLayout.CENTER, GAP_SEPARACION, GAP_SEPARACION));
+
+        // Panel Contenido (Usa un layout de tipo GridBagLayout) -------------------------------------------------------
+
         panelContenido = new JPanel();
 
         /*
@@ -111,19 +122,33 @@ public class MainFrame extends JFrame {
         GridBagLayout gbl = new GridBagLayout();
         panelContenido.setLayout(gbl);
 
+        // Panel Formulario (Usa un layout de tipo BoxLayout) ----------------------------------------------------------
+
         panelFormularioAlta = new JPanel();
         panelFormularioAlta.setLayout(new BoxLayout(panelFormularioAlta, BoxLayout.Y_AXIS));
 
-        panelCobroTrabajos = new JPanel(new FlowLayout(FlowLayout.CENTER,GAP,GAP));
+        // Panel Cobros (Usa un layout de tipo BoxLayout) --------------------------------------------------------------
+
+        panelCobroTrabajos = new JPanel();
         panelCobroTrabajos.setLayout(new BoxLayout(panelCobroTrabajos,BoxLayout.Y_AXIS));
+
+        // Panel Trabajos Cobrados (Usa un layout de tipo BoxLayout) ---------------------------------------------------
+
         panelTrabajosCobrados = new JPanel();
 
 
-        // Creamos los componentes
-        
+
+
+
+        // CREACION DE LOS COMPONENTES #################################################################################
+
+        // Componentes del panelMenu -----------------------------------------------------------------------------------
+
         botonMenuFormulario = new JButton("Alta Trabajo");
         botonMenuCobro = new JButton("Cobro Trabajo de Taller");
         botonMenuYaCobrados = new JButton("Trabajos ya cobrados");
+
+        // Componentes del panelFormularioAlta -------------------------------------------------------------------------
 
         labelTituloFormulario = new JLabel("ALTA DE NUEVOS VEHICULOS");
         labelTipo = new JLabel("Tipo de Vehiculo:");
@@ -146,7 +171,7 @@ public class MainFrame extends JFrame {
         tfHorasPrevistas = new JTextField();
         botonAlta = new JButton("Dar de Alta");
 
-        //Cobro trabajo de taller
+        // Componentes del panelCobroTrabajos --------------------------------------------------------------------------
 
         botonCobroTrabajo = new JButton("Cobrar");
         tCobroTrabajos = new JLabel("Cobro de trabajos");
@@ -155,18 +180,26 @@ public class MainFrame extends JFrame {
         listaCobros = new JList(controladorTaller.getTrabajosACobrar().toArray());
         scrollCobroLista = new JScrollPane(listaCobros);
 
-        //Trabajos ya cobrados
+        // Componentes del panelTrabajosCobrados -----------------------------------------------------------------------
 
         labelTrabajosYaCobrados = new JLabel("Trabajos ya cobrados");
         labelTrabajosCobrados = new JLabel("Total trabajos realizados : " + controladorTaller.getTrabajosRealizados().size()); //añadimos el contador
         listaCobrados = new JList(controladorTaller.getTrabajosRealizados().toArray());
 
 
-        // Ahora añadimos los paneles en la frame (ventana).
+
+
+
+        // AÑADIR PANELES ##############################################################################################
+
+        // Añadimos el panel base a la ventana (la ventana es el this)
 
         this.add(panelBase);
-        panelBase.add(panelMenu, BorderLayout.NORTH);
-        panelBase.add(panelContenido, BorderLayout.CENTER);
+
+        // Añadimos los paneles del menu y contenido al panel base y los colocamos en su sitio
+
+        panelBase.add(panelMenu, BorderLayout.NORTH);  // <- Añadimos el panel al norte (la parte de arriba)
+        panelBase.add(panelContenido, BorderLayout.CENTER);  // <- Añadimos el panel al centro (en este caso es la parte de abajo)
 
         // La configuración de los paneles (GridBagConstraints) las asignaremos en el listener que controla el tamaño de la ventana.
 
@@ -174,11 +207,19 @@ public class MainFrame extends JFrame {
         panelContenido.add(panelCobroTrabajos);
         panelContenido.add(panelTrabajosCobrados);
 
-        // Añadimos los componentes a los paneles
+
+
+
+
+        // AÑADIR COMPONENTES ##########################################################################################
+
+        // Añadimos los componentes a los panelMenu --------------------------------------------------------------------
 
         panelMenu.add(botonMenuFormulario);
         panelMenu.add(botonMenuCobro);
         panelMenu.add(botonMenuYaCobrados);
+
+        // Añadimos los componentes a los panelFormularioAlta ----------------------------------------------------------
 
         panelFormularioAlta.add(labelTituloFormulario);
         panelFormularioAlta.add(Box.createRigidArea(new Dimension(0, 30))); // <- Para que se vea mejor, es un separador
@@ -201,7 +242,7 @@ public class MainFrame extends JFrame {
         panelFormularioAlta.add(Box.createRigidArea(new Dimension(0, 30)));
         panelFormularioAlta.add(botonAlta);
 
-        //Añadimos los componentes al panel de cobro trabajo taller
+        //Añadimos los componentes al panelCobroTrabajos ---------------------------------------------------------------
 
         panelCobroTrabajos.add(tCobroTrabajos);
         panelCobroTrabajos.add(Box.createRigidArea(new Dimension(0, 20)));
@@ -211,11 +252,17 @@ public class MainFrame extends JFrame {
         panelCobroTrabajos.add(scrollCobroLista);
         panelCobroTrabajos.add(botonCobroTrabajo);
 
-        //Añadimos los componentes al panel de trabajos ya cobrados
+        //Añadimos los componentes al panelTrabajosCobrados ------------------------------------------------------------
 
         panelTrabajosCobrados.add(labelTrabajosYaCobrados);
         panelTrabajosCobrados.add(labelTrabajosCobrados);
         panelTrabajosCobrados.add(listaCobrados);
+
+
+
+
+
+        // CONFIGURACIONES DE LOS COMPONENTES ##########################################################################
 
         // Coloreamos los paneles para diferenciarlos
 
@@ -226,15 +273,16 @@ public class MainFrame extends JFrame {
         panelCobroTrabajos.setBackground(new java.awt.Color(160, 140, 220));
         panelTrabajosCobrados.setBackground(new java.awt.Color(255, 226, 140));
 
-        // Asignamos ciertas propiedades a los componentes y paneles
+        // Ponemos visible el panelFormularioAlta y ocultamos el resto, para que este sea el que se muestre por defecto
 
         panelFormularioAlta.setVisible(true);
         panelCobroTrabajos.setVisible(false);
         panelTrabajosCobrados.setVisible(false);
 
-        // Con esto le metemos un padding al panel para que los componentes no queden muy pegados al borde
+        // Con esto le metemos un padding a los paneles para que los componentes no queden muy pegados al borde
 
         panelFormularioAlta.setBorder(padding);
+        panelCobroTrabajos.setBorder(padding);
 
         // Para que los componentes no se coloquen donde no deberían tenemos que forzar que TODOS los componentes tengan una posición fija
 
@@ -257,10 +305,6 @@ public class MainFrame extends JFrame {
         tfHorasPrevistas.setAlignmentX(Component.LEFT_ALIGNMENT);
         botonAlta.setAlignmentX(Component.LEFT_ALIGNMENT);
 
-        //Para que los componente no esten tan a la izquierda
-
-        panelCobroTrabajos.setBorder(padding);
-
         //Para los componentes del panel de cobro también los tenemos que poner a la izquierda
 
         botonCobroTrabajo.setAlignmentX(Component.LEFT_ALIGNMENT);
@@ -270,7 +314,13 @@ public class MainFrame extends JFrame {
         listaCobros.setAlignmentX(Component.LEFT_ALIGNMENT);
         scrollCobroLista.setAlignmentX(Component.LEFT_ALIGNMENT);
 
-        // Añadimos los listeners
+
+
+
+
+        // LISTENERS ###################################################################################################
+
+        // Listener para el botón del menu que te lleva a panelFormularioAlta ------------------------------------------
 
         botonMenuFormulario.addActionListener(new ActionListener() {
             @Override
@@ -281,6 +331,8 @@ public class MainFrame extends JFrame {
             }
         });
 
+        // Listener para el botón del menu que te lleva a panelCobroTrabajos -------------------------------------------
+
         botonMenuCobro.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -290,6 +342,8 @@ public class MainFrame extends JFrame {
             }
         });
 
+        // Listener para el boton del menu que te lleva al panelYaCobrados ---------------------------------------------
+
         botonMenuYaCobrados.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -298,6 +352,8 @@ public class MainFrame extends JFrame {
                 panelTrabajosCobrados.setVisible(true);
             }
         });
+
+        // Listener para el boton de alta del panelFormularioAlta ------------------------------------------------------
 
         botonAlta.addActionListener(new ActionListener() {
             @Override
@@ -389,18 +445,57 @@ public class MainFrame extends JFrame {
             }
         });
 
+        // Listener para el botón de cobrar del panelCobroTrabajos -----------------------------------------------------
+
         botonCobroTrabajo.addActionListener(new ActionListener() {
         @Override
-        public void actionPerformed(ActionEvent e) {
-            controladorTaller.cobrarTrabajo(listaCobros.getSelectedIndex());
-            listaCobros.setListData(controladorTaller.getTrabajosACobrar().toArray()); //actualizamos lista en pantalla
-            tTotal.setText("Total trabajos por cobrar: "+ controladorTaller.getTrabajosACobrar().size());
-            labelTrabajosCobrados.setText("Total trabajos realizados :" + controladorTaller.getTrabajosRealizados().size());
-            listaCobrados.setListData(controladorTaller.getTrabajosRealizados().toArray()); // actualizar la lista en pantalla
-        }
+            public void actionPerformed(ActionEvent e) {
+
+                int codigoDeError = controlDeErrores();
+
+                // Cogemos el indice del trabajo que vamos a cobrar
+
+                int indiceTrabajo = listaCobros.getSelectedIndex();
+
+                // Si no hay errores, lo cobramos (por ahora es eliminarlo de la lista de cobros y añadirlo a la lista de cobrados)
+
+                if (codigoDeError == 0) {
+                    controladorTaller.cobrarTrabajo(indiceTrabajo);
+                } else {
+
+                    // Dependiendo del error, mostramos un mensaje de error
+
+                    switch (codigoDeError) {
+                        case 1:
+                            showMessageDialog(panelCobroTrabajos, "Por favor seleccione un trabajo");
+                            break;
+                    }
+                }
+
+
+                // Actualizamos la lista y el contador de trabajos a cobrar, ya que hemos quitado uno
+
+                listaCobros.setListData(controladorTaller.getTrabajosACobrar().toArray());
+                tTotal.setText("Total trabajos por cobrar: "+ controladorTaller.getTrabajosACobrar().size());
+
+                // Actualizamos la lista y el contador de trabajos ya cobrados, ya que hemos añadido uno
+
+                listaCobrados.setListData(controladorTaller.getTrabajosRealizados().toArray());
+                labelTrabajosCobrados.setText("Total trabajos realizados :" + controladorTaller.getTrabajosRealizados().size());
+            }
+
+            private int controlDeErrores() {
+                // Comprobamos que hay un trabajo seleccionado, ya que si no saltaría un error
+                if (listaCobros.getSelectedIndex() == -1) {
+                    return 1;
+                }
+
+                return 0;
+            }
         });
 
-        /*
+        /* -------------------------------------------------------------------------------------------------------------
+
             Este último listener se encargará de "escuchar" cuando la ventana cambia de tamaño, para así poder ajustar
             el tamaño de los insets (los márgenes que tienen los paneles de dentro de panelContenido) y hacerlo más
             responsive.
