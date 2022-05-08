@@ -6,6 +6,8 @@ import Modelo.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -99,9 +101,15 @@ public class MainFrame extends JFrame {
         panelMenu = new JPanel(new FlowLayout(FlowLayout.CENTER, GAP, GAP));
         panelContenido = new JPanel();
 
-        // Usando GridBagLayout podemos poner los paneles centrados de una forma más cómoda
+        /*
+            Usando GridBagLayout podemos poner los paneles centrados de una forma más cómoda.
 
-        panelContenido.setLayout(new GridBagLayout());
+            Lo instanciamos aparte porque tendremos que usarlo más adelante en el listener que controla el tamaño
+            de la ventana.
+         */
+
+        GridBagLayout gbl = new GridBagLayout();
+        panelContenido.setLayout(gbl);
 
         panelFormularioAlta = new JPanel();
         panelFormularioAlta.setLayout(new BoxLayout(panelFormularioAlta, BoxLayout.Y_AXIS));
@@ -153,33 +161,6 @@ public class MainFrame extends JFrame {
         labelTrabajosCobrados = new JLabel("Total trabajos realizados : " + controladorTaller.getTrabajosRealizados().size()); //añadimos el contador
         listaCobrados = new JList(controladorTaller.getTrabajosRealizados().toArray());
 
-        // Es necesario pasar ciertas configuraciones a GridBagLayout para que funcione, esto se hace al añadir los paneles
-
-        GridBagConstraints gbcPanelFormulario = new GridBagConstraints();
-        GridBagConstraints gbcPanelCobros = new GridBagConstraints();
-        GridBagConstraints gbcPanelYaCobrados = new GridBagConstraints();
-
-        // Ahora con gridbaglayout tenemos que modificar las constantes para adaptar los paneles antes de añadirlos
-        // Con fill extendemos el panel, y es necesario usar weight distinto de 0 porque si no no se ajusta
-
-        gbcPanelFormulario.fill = GridBagConstraints.BOTH;   // <- BOTH = Horizontal y vertical
-        gbcPanelFormulario.weightx = 1;
-        gbcPanelFormulario.weighty = 1;
-
-        // Con insets ponemos un margen externo a los paneles
-
-        gbcPanelFormulario.insets = new Insets(100, 100, 100, 100);
-
-        // Con fill extendemos el panel, y es necesario usar weight distinto de 0 porque si no no se ajusta
-
-        gbcPanelCobros.fill = GridBagConstraints.BOTH;   // <- BOTH = Horizontal y vertical
-        gbcPanelCobros.weightx = 1;
-        gbcPanelCobros.weighty = 1;
-
-        // Con insets ponemos un margen externo a los paneles
-
-        gbcPanelCobros.insets = new Insets(200, 400, 200,400);
-
 
         // Ahora añadimos los paneles en la frame (ventana).
 
@@ -187,9 +168,11 @@ public class MainFrame extends JFrame {
         panelBase.add(panelMenu, BorderLayout.NORTH);
         panelBase.add(panelContenido, BorderLayout.CENTER);
 
-        panelContenido.add(panelFormularioAlta, gbcPanelFormulario);
-        panelContenido.add(panelCobroTrabajos, gbcPanelCobros);
-        panelContenido.add(panelTrabajosCobrados, gbcPanelYaCobrados);
+        // La configuración de los paneles (GridBagConstraints) las asignaremos en el listener que controla el tamaño de la ventana.
+
+        panelContenido.add(panelFormularioAlta);
+        panelContenido.add(panelCobroTrabajos);
+        panelContenido.add(panelTrabajosCobrados);
 
         // Añadimos los componentes a los paneles
 
@@ -415,6 +398,90 @@ public class MainFrame extends JFrame {
             labelTrabajosCobrados.setText("Total trabajos realizados :" + controladorTaller.getTrabajosRealizados().size());
             listaCobrados.setListData(controladorTaller.getTrabajosRealizados().toArray()); // actualizar la lista en pantalla
         }
+        });
+
+        /*
+            Este último listener se encargará de "escuchar" cuando la ventana cambia de tamaño, para así poder ajustar
+            el tamaño de los insets (los márgenes que tienen los paneles de dentro de panelContenido) y hacerlo más
+            responsive.
+         */
+
+        getContentPane().addComponentListener(new ComponentAdapter() {
+            @Override
+            public void componentResized(ComponentEvent e) {
+
+                // Vamos a necesitar los datos de la ventana, para ello lo cogemos de lo que escucha el listener
+                Component ventana = (Component) e.getSource();
+
+                // Sacamos el ancho y alto de la ventana
+                int anchoVentana = ventana.getWidth();
+                int altoVentana = ventana.getHeight();
+
+                // Es necesario pasar ciertas configuraciones a GridBagLayout para que funcione
+
+                GridBagConstraints gbcPanelFormulario = new GridBagConstraints();
+                GridBagConstraints gbcPanelCobros = new GridBagConstraints();
+                GridBagConstraints gbcPanelYaCobrados = new GridBagConstraints();
+
+                // Ahora tenemos que modificar las configuraciones variables para adaptar los paneles
+
+                // CONFIGURACIONES DEL PANEL FORMULARIO ----------------------------------------------------------------
+
+                // Con fill extendemos el panel, y es necesario usar weight distinto de 0 porque si no no se ajusta
+
+                gbcPanelFormulario.fill = GridBagConstraints.BOTH;   // <- BOTH = Horizontal y vertical
+                gbcPanelFormulario.weightx = 1;
+                gbcPanelFormulario.weighty = 1;
+
+                // Con insets ponemos un margen externo a los paneles
+
+                /*
+                    Para el panel formulario usaremos el 5% del ancho de la ventana para cada uno de los margenenes
+                    laterales y el 5% del alto de la ventana para los margenes superior e inferior.
+
+                    Estos porcentajes son los que más se acercan a como estaban antes a pantalla completa.
+
+                    Margenes laterales -> (anchoVentana * 5) / 100 -> 5% de ancho de la ventana
+                    Margenes superior e inferior -> (altoVentana * 5) / 100 -> 5% de alto de la ventana
+                */
+
+                gbcPanelFormulario.insets = new Insets((altoVentana * 5) / 100, (anchoVentana * 5) / 100, (altoVentana * 5) / 100, (anchoVentana * 5) / 100);
+
+                // CONFIGURACIONES DEL PANEL COBROS --------------------------------------------------------------------
+
+                // Con fill extendemos el panel, y es necesario usar weight distinto de 0 porque si no no se ajusta
+
+                gbcPanelCobros.fill = GridBagConstraints.BOTH;   // <- BOTH = Horizontal y vertical
+                gbcPanelCobros.weightx = 1;
+                gbcPanelCobros.weighty = 1;
+
+                // Con insets ponemos un margen externo a los paneles
+
+                /*
+                    Para el panel formulario usaremos el 21% del ancho de la ventana para cada uno de los margenenes
+                    laterales y el 20% del alto de la ventana para los margenes superior e inferior.
+
+                    Estos porcentajes son los que más se acercan a como estaban antes a pantalla completa.
+
+                    Margenes laterales -> (anchoVentana * 21) / 100 -> 21% de ancho de la ventana
+                    Margenes superior e inferior -> (altoVentana * 20) / 100 -> 20% de alto de la ventana
+                */
+
+                gbcPanelCobros.insets = new Insets((altoVentana * 20) / 100, (anchoVentana * 21) / 100, (altoVentana * 20) / 100,(anchoVentana * 21) / 100);
+
+                // CONFIGURACIONES DEL PANEL YA COBRADOS ---------------------------------------------------------------
+
+                // Hay que hacerlo...
+
+
+                // Asignamos las configuraciones al panel correspondiente
+                gbl.setConstraints(panelFormularioAlta, gbcPanelFormulario);
+                gbl.setConstraints(panelCobroTrabajos, gbcPanelCobros);
+
+                // Refrescamos el panelContenido para que se vean los cambios
+                panelContenido.repaint();
+                panelContenido.revalidate();
+            }
         });
 
     }
