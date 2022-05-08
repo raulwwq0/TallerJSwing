@@ -140,13 +140,11 @@ public class MainFrame extends JFrame {
         // Panel Trabajos Cobrados (Usa un layout de tipo BoxLayout) ---------------------------------------------------
 
         panelTrabajosCobrados = new JPanel();
-        // FALTA PONERLE EL LAYOUT DE TIPO BOX LAYOUT
-
-
-
+        panelTrabajosCobrados.setLayout(new BoxLayout(panelTrabajosCobrados,BoxLayout.Y_AXIS));
 
 
         // CREACION DE LOS COMPONENTES #################################################################################
+
 
         // Componentes del panelMenu -----------------------------------------------------------------------------------
 
@@ -192,9 +190,7 @@ public class MainFrame extends JFrame {
         labelTrabajosCobrados = new JLabel("Total trabajos realizados : " + controladorTaller.getTrabajosRealizados().size()); //añadimos el contador
         listaCobrados = new JList(controladorTaller.getTrabajosRealizados().toArray());
 
-
-
-
+        
 
         // AÑADIR PANELES ##############################################################################################
 
