@@ -1,4 +1,4 @@
-package Modelo;
+package com.politecnicomalaga.taller.Modelo;
 
 public class Moto extends Vehiculo{
 

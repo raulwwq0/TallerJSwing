@@ -1,4 +1,4 @@
-package Vista;
+package com.politecnicomalaga.taller.Vista;
 
 public class MainLauncher {
 

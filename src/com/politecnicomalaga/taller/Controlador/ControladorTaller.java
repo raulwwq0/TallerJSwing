@@ -1,7 +1,7 @@
-package Controlador;
+package com.politecnicomalaga.taller.Controlador;
 
 
-import Modelo.TrabajoTaller;
+import com.politecnicomalaga.taller.Modelo.TrabajoTaller;
 import java.util.ArrayList;
 
 

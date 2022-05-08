@@ -1,7 +1,7 @@
-package Vista;
+package com.politecnicomalaga.taller.Vista;
 
-import Controlador.ControladorTaller;
-import Modelo.*;
+import com.politecnicomalaga.taller.Controlador.ControladorTaller;
+import com.politecnicomalaga.taller.Modelo.*;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -165,7 +165,7 @@ public class MainFrame extends JFrame {
         tfDni = new JTextField();
         labelPropietario = new JLabel("Propietario:");
         tfPropietario = new JTextField();
-        labelModelo = new JLabel("Modelo:");
+        labelModelo = new JLabel("com.politecnicomalaga.taller.Modelo:");
         tfModelo = new JTextField();
         labelDiagnostico = new JLabel("Diagnóstico:");
         taDiagnostico = new JTextArea(13, 0);

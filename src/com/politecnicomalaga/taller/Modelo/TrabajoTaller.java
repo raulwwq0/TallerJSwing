@@ -1,4 +1,4 @@
-package Modelo;
+package com.politecnicomalaga.taller.Modelo;
 
 import java.util.Date;
 
