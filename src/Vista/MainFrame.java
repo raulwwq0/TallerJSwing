@@ -35,6 +35,7 @@ public class MainFrame extends JFrame {
 
     // Cosas del Panel Formulario de Alta ------------------------------------------------------------------------------
     protected JPanel panelFormularioAlta;
+    protected JScrollPane scrollPanelFormularioAlta;
 
     protected JLabel labelTipo;
     protected JComboBox comboTipo;
@@ -79,6 +80,9 @@ public class MainFrame extends JFrame {
 
         //Para que se muestre el título
         super(title);
+
+        // Guardamos la ventana en una variable para usarla
+        Component ventanaDelPrograma = getContentPane();
 
         // BORDES ######################################################################################################
 
@@ -126,6 +130,7 @@ public class MainFrame extends JFrame {
 
         panelFormularioAlta = new JPanel();
         panelFormularioAlta.setLayout(new BoxLayout(panelFormularioAlta, BoxLayout.Y_AXIS));
+        scrollPanelFormularioAlta = new JScrollPane(panelFormularioAlta);  // <- Ponemos un scroll al panel formulario para mejorar el responsive
 
         // Panel Cobros (Usa un layout de tipo BoxLayout) --------------------------------------------------------------
 
@@ -135,6 +140,7 @@ public class MainFrame extends JFrame {
         // Panel Trabajos Cobrados (Usa un layout de tipo BoxLayout) ---------------------------------------------------
 
         panelTrabajosCobrados = new JPanel();
+        // FALTA PONERLE EL LAYOUT DE TIPO BOX LAYOUT
 
 
 
@@ -162,10 +168,10 @@ public class MainFrame extends JFrame {
         labelModelo = new JLabel("Modelo:");
         tfModelo = new JTextField();
         labelDiagnostico = new JLabel("Diagnóstico:");
-        taDiagnostico = new JTextArea(20, 0);
+        taDiagnostico = new JTextArea(13, 0);
         scrollDiagnostico = new JScrollPane(taDiagnostico); // <- Con este scroll evitamos el bug de que se muevan las etiquetas al escribir en el textarea
         labelSolucion = new JLabel("Solución:");
-        taSolucion = new JTextArea(20, 0);
+        taSolucion = new JTextArea(13, 0);
         scrollSolucion = new JScrollPane(taSolucion);
         labelHorasPrevistas = new JLabel("Horas previstas:");
         tfHorasPrevistas = new JTextField();
@@ -203,7 +209,7 @@ public class MainFrame extends JFrame {
 
         // La configuración de los paneles (GridBagConstraints) las asignaremos en el listener que controla el tamaño de la ventana.
 
-        panelContenido.add(panelFormularioAlta);
+        panelContenido.add(scrollPanelFormularioAlta);
         panelContenido.add(panelCobroTrabajos);
         panelContenido.add(panelTrabajosCobrados);
 
@@ -276,6 +282,8 @@ public class MainFrame extends JFrame {
         // Ponemos visible el panelFormularioAlta y ocultamos el resto, para que este sea el que se muestre por defecto
 
         panelFormularioAlta.setVisible(true);
+        scrollPanelFormularioAlta.setVisible(true);  // <- ¡OJO! También tenemos que controlar la visibilidad del scroll
+
         panelCobroTrabajos.setVisible(false);
         panelTrabajosCobrados.setVisible(false);
 
@@ -326,6 +334,8 @@ public class MainFrame extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 panelFormularioAlta.setVisible(true);
+                scrollPanelFormularioAlta.setVisible(true);
+
                 panelCobroTrabajos.setVisible(false);
                 panelTrabajosCobrados.setVisible(false);
             }
@@ -337,6 +347,8 @@ public class MainFrame extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 panelFormularioAlta.setVisible(false);
+                scrollPanelFormularioAlta.setVisible(false);
+
                 panelCobroTrabajos.setVisible(true);
                 panelTrabajosCobrados.setVisible(false);
             }
@@ -348,6 +360,8 @@ public class MainFrame extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 panelFormularioAlta.setVisible(false);
+                scrollPanelFormularioAlta.setVisible(false);
+
                 panelCobroTrabajos.setVisible(false);
                 panelTrabajosCobrados.setVisible(true);
             }
@@ -394,7 +408,7 @@ public class MainFrame extends JFrame {
                     listaCobros.setListData(controladorTaller.getTrabajosACobrar().toArray());
 
                     // Mostramos un mensaje de que ha salido bien
-                    showMessageDialog(panelFormularioAlta, "Trabajo añadido");
+                    showMessageDialog(ventanaDelPrograma, "Trabajo añadido");
 
                     //Cambiamos la label de trabajos a cobrar
                     tTotal.setText("Total trabajos por cobrar: "+ controladorTaller.getTrabajosACobrar().size());
@@ -403,13 +417,13 @@ public class MainFrame extends JFrame {
                     // Dependiendo del error, mostramos un mensaje de error
                     switch (codigoDeError) {
                         case 1:
-                            showMessageDialog(panelFormularioAlta, "Por favor rellene todos los campos");
+                            showMessageDialog(ventanaDelPrograma, "Por favor rellene todos los campos");
                             break;
                         case 2:
-                            showMessageDialog(panelFormularioAlta, "Especifique las horas en formato numérico");
+                            showMessageDialog(ventanaDelPrograma, "Especifique las horas en formato numérico");
                             break;
                         case 3:
-                            showMessageDialog(panelFormularioAlta, "Inserte un DNI válido");
+                            showMessageDialog(ventanaDelPrograma, "Inserte un DNI válido");
                             break;
                     }
                 }
@@ -467,7 +481,7 @@ public class MainFrame extends JFrame {
 
                     switch (codigoDeError) {
                         case 1:
-                            showMessageDialog(panelCobroTrabajos, "Por favor seleccione un trabajo");
+                            showMessageDialog(ventanaDelPrograma, "Por favor seleccione un trabajo");
                             break;
                     }
                 }
@@ -501,16 +515,16 @@ public class MainFrame extends JFrame {
             responsive.
          */
 
-        getContentPane().addComponentListener(new ComponentAdapter() {
+        ventanaDelPrograma.addComponentListener(new ComponentAdapter() {
             @Override
             public void componentResized(ComponentEvent e) {
 
-                // Vamos a necesitar los datos de la ventana, para ello lo cogemos de lo que escucha el listener
-                Component ventana = (Component) e.getSource();
+                // Vamos a necesitar los datos actualizados de la ventana, para ello lo cogemos de lo que escucha el listener
+                Component datosVentana = (Component) e.getSource();
 
                 // Sacamos el ancho y alto de la ventana
-                int anchoVentana = ventana.getWidth();
-                int altoVentana = ventana.getHeight();
+                int anchoVentana = datosVentana.getWidth();
+                int altoVentana = datosVentana.getHeight();
 
                 // Es necesario pasar ciertas configuraciones a GridBagLayout para que funcione
 
@@ -570,7 +584,7 @@ public class MainFrame extends JFrame {
 
 
                 // Asignamos las configuraciones al panel correspondiente
-                gbl.setConstraints(panelFormularioAlta, gbcPanelFormulario);
+                gbl.setConstraints(scrollPanelFormularioAlta, gbcPanelFormulario);
                 gbl.setConstraints(panelCobroTrabajos, gbcPanelCobros);
 
                 // Refrescamos el panelContenido para que se vean los cambios
