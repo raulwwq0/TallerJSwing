@@ -165,7 +165,7 @@ public class MainFrame extends JFrame {
         tfDni = new JTextField();
         labelPropietario = new JLabel("Propietario:");
         tfPropietario = new JTextField();
-        labelModelo = new JLabel("com.politecnicomalaga.taller.Modelo:");
+        labelModelo = new JLabel("Modelo:");
         tfModelo = new JTextField();
         labelDiagnostico = new JLabel("Diagnóstico:");
         taDiagnostico = new JTextArea(13, 0);
