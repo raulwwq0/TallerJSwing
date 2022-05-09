@@ -97,7 +97,7 @@ public class MainFrame extends JFrame {
 
         // CONTROLADOR DEL TALLER ######################################################################################
 
-        ControladorTaller controladorTaller = new ControladorTaller();
+        ControladorTaller.getSingleton();
 
 
 
@@ -157,7 +157,7 @@ public class MainFrame extends JFrame {
 
         labelTituloFormulario = new JLabel("ALTA DE NUEVOS VEHICULOS");
         labelTipo = new JLabel("Tipo de Vehiculo:");
-        comboTipo = new JComboBox(controladorTaller.getTiposVehiculo());
+        comboTipo = new JComboBox(ControladorTaller.getSingleton().getTiposVehiculo());
         labelMatricula = new JLabel("Matrícula:");
         tfMatricula = new JTextField();
         labelDni = new JLabel("DNI Propietario:");
@@ -182,14 +182,14 @@ public class MainFrame extends JFrame {
         tCobroTrabajos = new JLabel("Cobro de trabajos");
         tSeleccione = new JLabel("Seleccione vehículo y trabajo realizado:");
         tTotal = new JLabel("Total trabajos por cobrar : 0");
-        listaCobros = new JList(controladorTaller.getTrabajosACobrar().toArray());
+        listaCobros = new JList(ControladorTaller.getSingleton().getTrabajosACobrar().toArray());
         scrollCobroLista = new JScrollPane(listaCobros);
 
         // Componentes del panelTrabajosCobrados -----------------------------------------------------------------------
 
         labelTrabajosYaCobrados = new JLabel("Trabajos ya cobrados");
-        labelTrabajosCobrados = new JLabel("Total trabajos realizados : " + controladorTaller.getTrabajosRealizados().size()); //añadimos el contador
-        listaCobrados = new JList(controladorTaller.getTrabajosRealizados().toArray());
+        labelTrabajosCobrados = new JLabel("Total trabajos realizados : " + ControladorTaller.getSingleton().getTrabajosRealizados().size()); //añadimos el contador
+        listaCobrados = new JList(ControladorTaller.getSingleton().getTrabajosRealizados().toArray());
         scrollCobradosLista = new JScrollPane(listaCobrados);
 
         
@@ -408,10 +408,10 @@ public class MainFrame extends JFrame {
                     trabajoTaller = new TrabajoTaller(vehiculo, taDiagnostico.getText(), taSolucion.getText(), Integer.parseInt(tfHorasPrevistas.getText()));
 
                     // Añadimos el trabajo a la lista
-                    controladorTaller.addTrabajo(trabajoTaller);
+                    ControladorTaller.getSingleton().addTrabajo(trabajoTaller);
 
                     // Usamos setListData para que se actualice la lista
-                    listaCobros.setListData(controladorTaller.getTrabajosACobrar().toArray());
+                    listaCobros.setListData(ControladorTaller.getSingleton().getTrabajosACobrar().toArray());
 
                     // Mostramos un mensaje de que ha salido bien
                     showMessageDialog(ventanaDelPrograma, "Trabajo añadido");
@@ -427,7 +427,7 @@ public class MainFrame extends JFrame {
                     tfHorasPrevistas.setText("");
 
                     //Cambiamos la label de trabajos a cobrar
-                    tTotal.setText("Total trabajos por cobrar: "+ controladorTaller.getTrabajosACobrar().size());
+                    tTotal.setText("Total trabajos por cobrar: "+ ControladorTaller.getSingleton().getTrabajosACobrar().size());
 
                 } else {
                     // Dependiendo del error, mostramos un mensaje de error
@@ -490,7 +490,7 @@ public class MainFrame extends JFrame {
                 // Si no hay errores, lo cobramos (por ahora es eliminarlo de la lista de cobros y añadirlo a la lista de cobrados)
 
                 if (codigoDeError == 0) {
-                    controladorTaller.cobrarTrabajo(indiceTrabajo);
+                    ControladorTaller.getSingleton().cobrarTrabajo(indiceTrabajo);
                 } else {
 
                     // Dependiendo del error, mostramos un mensaje de error
@@ -505,13 +505,13 @@ public class MainFrame extends JFrame {
 
                 // Actualizamos la lista y el contador de trabajos a cobrar, ya que hemos quitado uno
 
-                listaCobros.setListData(controladorTaller.getTrabajosACobrar().toArray());
-                tTotal.setText("Total trabajos por cobrar: "+ controladorTaller.getTrabajosACobrar().size());
+                listaCobros.setListData(ControladorTaller.getSingleton().getTrabajosACobrar().toArray());
+                tTotal.setText("Total trabajos por cobrar: "+ ControladorTaller.getSingleton().getTrabajosACobrar().size());
 
                 // Actualizamos la lista y el contador de trabajos ya cobrados, ya que hemos añadido uno
 
-                listaCobrados.setListData(controladorTaller.getTrabajosRealizados().toArray());
-                labelTrabajosCobrados.setText("Total trabajos realizados :" + controladorTaller.getTrabajosRealizados().size());
+                listaCobrados.setListData(ControladorTaller.getSingleton().getTrabajosRealizados().toArray());
+                labelTrabajosCobrados.setText("Total trabajos realizados :" + ControladorTaller.getSingleton().getTrabajosRealizados().size());
             }
 
             private int controlDeErrores() {
