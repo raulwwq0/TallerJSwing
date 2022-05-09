@@ -163,10 +163,10 @@ public class MainFrame extends JFrame {
         labelModelo = new JLabel("Modelo:");
         tfModelo = new JTextField();
         labelDiagnostico = new JLabel("Diagnóstico:");
-        taDiagnostico = new JTextArea(13, 0);
+        taDiagnostico = new JTextArea();
         scrollDiagnostico = new JScrollPane(taDiagnostico); // <- Con este scroll evitamos el bug de que se muevan las etiquetas al escribir en el textarea
         labelSolucion = new JLabel("Solución:");
-        taSolucion = new JTextArea(13, 0);
+        taSolucion = new JTextArea();
         scrollSolucion = new JScrollPane(taSolucion);
         labelHorasPrevistas = new JLabel("Horas previstas:");
         tfHorasPrevistas = new JTextField();
@@ -537,6 +537,10 @@ public class MainFrame extends JFrame {
                 // Sacamos el ancho y alto de la ventana
                 int anchoVentana = datosVentana.getWidth();
                 int altoVentana = datosVentana.getHeight();
+
+                // Adaptamos el tamaño de los TextAreas para que no sean tan grandes al redimensionar verticalmente la ventana
+                taDiagnostico.setRows((int) (altoVentana * 1.3 / 100));
+                taSolucion.setRows((int) (altoVentana * 1.3 / 100));
 
                 // Es necesario pasar ciertas configuraciones a GridBagLayout para que funcione
 
