@@ -272,11 +272,11 @@ public class MainFrame extends JFrame {
         // Coloreamos los paneles para diferenciarlos
 
         panelBase.setBackground(new java.awt.Color(0, 0, 0));
-        panelMenu.setBackground(new java.awt.Color(140, 220, 147));
-        panelContenido.setBackground(new java.awt.Color(140, 197, 220));
-        panelFormularioAlta.setBackground(new java.awt.Color(255, 140, 140));
-        panelCobroTrabajos.setBackground(new java.awt.Color(160, 140, 220));
-        panelTrabajosCobrados.setBackground(new java.awt.Color(255, 226, 140));
+        panelMenu.setBackground(new java.awt.Color(140, 197, 220));
+        panelContenido.setBackground(new java.awt.Color(222, 221, 221));
+        panelFormularioAlta.setBackground(new java.awt.Color(140, 197, 220));
+        panelCobroTrabajos.setBackground(new java.awt.Color(140, 197, 220));
+        panelTrabajosCobrados.setBackground(new java.awt.Color(140, 197, 220));
 
         // Ponemos visible el panelFormularioAlta y ocultamos el resto, para que este sea el que se muestre por defecto
 
