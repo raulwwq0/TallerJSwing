@@ -20,6 +20,9 @@ public class ControladorTaller {
     //Variable String para erroes
     protected String mensajeError;
 
+    //El truco
+    public static ControladorTaller singleton;
+
     //CONTRUCTOR //////////////////////////////////////////////////////////////////////////////////
 
     public ControladorTaller(){
@@ -52,5 +55,13 @@ public class ControladorTaller {
 
     public String[] getTiposVehiculo() {
         return tiposVehiculo;
+    }
+
+    //El trucamen
+    public static ControladorTaller getSingleton(){
+        if(singleton == null){
+            singleton = new ControladorTaller();
+        }
+        return singleton;
     }
 }
