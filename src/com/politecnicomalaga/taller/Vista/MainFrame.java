@@ -416,6 +416,16 @@ public class MainFrame extends JFrame {
                     // Mostramos un mensaje de que ha salido bien
                     showMessageDialog(ventanaDelPrograma, "Trabajo añadido");
 
+                    //modificamos los TextField de cada campo para que vuelva a quedarse en blanco una vez añadido el trabajo
+
+                    tfMatricula.setText("");
+                    tfDni.setText("");
+                    tfPropietario.setText("");
+                    tfModelo.setText("");
+                    taDiagnostico.setText("");
+                    taSolucion.setText("");
+                    tfHorasPrevistas.setText("");
+
                     //Cambiamos la label de trabajos a cobrar
                     tTotal.setText("Total trabajos por cobrar: "+ controladorTaller.getTrabajosACobrar().size());
 
