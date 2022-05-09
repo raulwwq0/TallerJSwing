@@ -72,7 +72,7 @@ public class MainFrame extends JFrame {
     protected JLabel labelTrabajosYaCobrados;
     protected JLabel labelTrabajosCobrados;
     protected JList  listaCobrados;
-    //protected JScrollPane scrollCobradosLista;
+    protected JScrollPane scrollCobradosLista;
 
 
 
@@ -190,7 +190,7 @@ public class MainFrame extends JFrame {
         labelTrabajosYaCobrados = new JLabel("Trabajos ya cobrados");
         labelTrabajosCobrados = new JLabel("Total trabajos realizados : " + controladorTaller.getTrabajosRealizados().size()); //añadimos el contador
         listaCobrados = new JList(controladorTaller.getTrabajosRealizados().toArray());
-        //scrollCobradosLista = new JScrollPane(listaCobrados);
+        scrollCobradosLista = new JScrollPane(listaCobrados);
 
         
 
@@ -261,8 +261,7 @@ public class MainFrame extends JFrame {
         panelTrabajosCobrados.add(labelTrabajosYaCobrados);
         panelTrabajosCobrados.add(Box.createRigidArea(new Dimension(0, 20)));
         panelTrabajosCobrados.add(labelTrabajosCobrados);
-        panelTrabajosCobrados.add(listaCobrados); //Eliminnar si descomenta abajo
-        //panelTrabajosCobrados.add(scrollCobradosLista);
+        panelTrabajosCobrados.add(scrollCobradosLista);
 
 
 
@@ -327,7 +326,7 @@ public class MainFrame extends JFrame {
 
         labelTrabajosCobrados.setAlignmentX(Component.LEFT_ALIGNMENT);
         labelTrabajosYaCobrados.setAlignmentX(Component.LEFT_ALIGNMENT);
-        listaCobrados.setAlignmentX(Component.LEFT_ALIGNMENT);
+        scrollCobradosLista.setAlignmentX(Component.LEFT_ALIGNMENT);
 
 
 
@@ -587,20 +586,18 @@ public class MainFrame extends JFrame {
 
                 // CONFIGURACIONES DEL PANEL YA COBRADOS ---------------------------------------------------------------
 
-                // Hay que hacerlo...
-
-                //gbcPanelYaCobrados.fill = GridBagConstraints.BOTH;
-                //gbcPanelYaCobrados.weightx = 1;
-                //gbcPanelYaCobrados.weighty = 1;
+                gbcPanelYaCobrados.fill = GridBagConstraints.BOTH;
+                gbcPanelYaCobrados.weightx = 1;
+                gbcPanelYaCobrados.weighty = 1;
 
                 //Usaremos los mismo margenes que en el PanelCobros
-                //gbcPanelYaCobrados.insets = new Insets((altoVentana * 20) / 100, (anchoVentana * 21) / 100, (altoVentana * 20) / 100,(anchoVentana * 21) / 100);
+                gbcPanelYaCobrados.insets = new Insets((altoVentana * 20) / 100, (anchoVentana * 21) / 100, (altoVentana * 20) / 100,(anchoVentana * 21) / 100);
 
 
                 // Asignamos las configuraciones al panel correspondiente
                 gbl.setConstraints(scrollPanelFormularioAlta, gbcPanelFormulario);
                 gbl.setConstraints(panelCobroTrabajos, gbcPanelCobros);
-                //gbl.setConstraints(panelTrabajosCobrados, gbcPanelYaCobrados);
+                gbl.setConstraints(panelTrabajosCobrados, gbcPanelYaCobrados);
 
                 // Refrescamos el panelContenido para que se vean los cambios
                 panelContenido.repaint();
