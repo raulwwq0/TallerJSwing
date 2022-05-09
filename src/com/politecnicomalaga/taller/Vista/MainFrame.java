@@ -95,10 +95,6 @@ public class MainFrame extends JFrame {
         this.setExtendedState(java.awt.Frame.MAXIMIZED_BOTH);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        // CONTROLADOR DEL TALLER ######################################################################################
-
-        ControladorTaller.getSingleton();
-
 
 
 
