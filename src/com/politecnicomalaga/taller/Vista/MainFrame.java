@@ -376,35 +376,18 @@ public class MainFrame extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 int codigoDeError = this.controlDeErrores();
                 int indiceTipoVehiculo = comboTipo.getSelectedIndex();
-                Vehiculo vehiculo = null;
-                TrabajoTaller trabajoTaller;
 
                 // Comprobamos si no tenemos errores
                 if(codigoDeError == 0){
+                    String matricula = tfMatricula.getText();
+                    String modelo = tfModelo.getText();
+                    String propietario = tfPropietario.getText();
+                    String dni = tfDni.getText();
+                    String diagnostico = taDiagnostico.getText();
+                    String solucion =  taSolucion.getText();
+                    int horasPrevistas = Integer.parseInt(tfHorasPrevistas.getText());
 
-                    // Dependiendo del vehículo que seleccionemos, creamos un objeto de ese tipo
-
-                    switch (indiceTipoVehiculo) {
-                        case 0:
-                            vehiculo = new Coche(tfMatricula.getText(), tfModelo.getText(), tfPropietario.getText(), tfDni.getText());
-                            break;
-                        case 1:
-                            vehiculo = new Moto(tfMatricula.getText(), tfModelo.getText(), tfPropietario.getText(), tfDni.getText());
-                            break;
-                        case 2:
-                            vehiculo = new Furgon(tfMatricula.getText(), tfModelo.getText(), tfPropietario.getText(), tfDni.getText());
-                            break;
-                        case 3:
-                            vehiculo = new Camion(tfMatricula.getText(), tfModelo.getText(), tfPropietario.getText(), tfDni.getText());
-
-                            break;
-                    }
-
-                    // Creamos el trabajo
-                    trabajoTaller = new TrabajoTaller(vehiculo, taDiagnostico.getText(), taSolucion.getText(), Integer.parseInt(tfHorasPrevistas.getText()));
-
-                    // Añadimos el trabajo a la lista
-                    ControladorTaller.getSingleton().addTrabajo(trabajoTaller);
+                    ControladorTaller.getSingleton().darAlta(indiceTipoVehiculo, matricula, modelo, propietario, dni, diagnostico, solucion, horasPrevistas);
 
                     // Usamos setListData para que se actualice la lista
                     listaCobros.setListData(ControladorTaller.getSingleton().getTrabajosACobrar().toArray());

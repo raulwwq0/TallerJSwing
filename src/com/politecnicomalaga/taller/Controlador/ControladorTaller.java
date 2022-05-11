@@ -1,7 +1,8 @@
 package com.politecnicomalaga.taller.Controlador;
 
 
-import com.politecnicomalaga.taller.Modelo.TrabajoTaller;
+import com.politecnicomalaga.taller.Modelo.*;
+
 import java.util.ArrayList;
 
 
@@ -44,10 +45,6 @@ public class ControladorTaller {
         return trabajosRealizados;
     }
 
-    public void addTrabajo(TrabajoTaller trabajo){
-        trabajosACobrar.add(trabajo);
-    }
-
     //Getter de la lista
     public ArrayList<TrabajoTaller> getTrabajosACobrar() {
         return trabajosACobrar;
@@ -63,5 +60,28 @@ public class ControladorTaller {
             singleton = new ControladorTaller();
         }
         return singleton;
+    }
+
+    public void addTrabajo(TrabajoTaller trabajo){
+        trabajosACobrar.add(trabajo);
+    }
+
+    public void darAlta(int indiceComboBox, String matricula, String modelo, String propietario, String dni, String diagnostico, String solucion, int horas){
+        Vehiculo vehiculo = null;
+        TrabajoTaller trabajoTaller;
+
+        //dependiendo del vehiculo que seleccionemos, creamos un objeto de ese tipo
+        switch (indiceComboBox){
+            case 0: vehiculo = new Coche(matricula, modelo, propietario, dni); break;
+            case 1: vehiculo = new Moto(matricula, modelo, propietario, dni); break;
+            case 2: vehiculo = new Furgon(matricula, modelo, propietario, dni); break;
+            case 3: vehiculo = new Camion(matricula, modelo, propietario, dni); break;
+        }
+
+        // Dependiendo del vehiculo que seleccionemos, creamos un objeto de ese tipo; Creamos el trabajo
+        trabajoTaller = new TrabajoTaller(vehiculo, diagnostico, solucion, horas);
+
+        // Añadimos el trabajo a la lista
+        addTrabajo(trabajoTaller);
     }
 }
